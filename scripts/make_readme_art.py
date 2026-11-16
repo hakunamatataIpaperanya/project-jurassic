@@ -791,9 +791,19 @@ def divider_dusk():
     return "".join(out)
 
 
+E27_TITLES = [   # ฉายายาวเหยียดของ @E27-25 (วิ่งเป็นแถบตัวอักษรในป้าย และเขียนเต็มใต้ป้ายใน README.md)
+    "KING OF ALL DINOS", "EMPEROR OF THE JURASSIC", "LORD OF THE 8,521 FOSSILS", "GUARDIAN OF THE 518 SITES",
+    "RULER OF ALL 20,706 MAP CELLS", "SUPREME OVERLORD OF THE KHORAT PLATEAU", "WHISPERER OF PHUWIANGOSAURUS",
+    "BEST FRIEND OF SIAMOTYRANNUS", "TAMER OF XGBOOST", "SHEPHERD OF 10,000 DECISION TREES", "SLAYER OF OVERFITTING",
+    "BREAKER OF NAN", "BANISHER OF DATA LEAKAGE", "KEEPER OF THE GOLDEN ROCK HAMMER", "HIGH PRIEST OF SPATIAL CROSS-VALIDATION",
+    "MASTER OF THE ONNX HOLOGRAM", "SURVIVOR OF THE ASTEROID (IT MISSED HIM)", "DIGGER OF HOLES WITH 0.887 AUC",
+    "THE ONE WHO MAKES TRILOBITES BOW", "SOLE REASON THE 227 TESTS PASS", "FATHER OF PANGEA", "AND SO ON AND SO ON",
+]
+
+
 def contributor():
-    # แถบสั้นท้าย README: ผู้ร่วมพัฒนาพิเศษ @E27-25 (กรอบทอง ดาวกะพริบ เทอโรพอดเดินผ่าน)
-    W, H, G = 256, 40, 33
+    # แถบสั้นท้าย README: ผู้ร่วมพัฒนาพิเศษ @E27-25 (กรอบทอง ดาวกะพริบ เทอโรพอดเดินผ่าน แถบฉายาวิ่ง)
+    W, H, G = 256, 50, 43
     rnd = random.Random(27)
     g = blank(W, H)
     sky(g, 0, G, ["#06071c", "#0b0c29", "#141845", "#1f2560"])
@@ -828,6 +838,21 @@ def contributor():
         out.append(twinkle(x, y, rnd.choice(["#ffffff", "#c8f6ff", "#fff1a3"]), rnd.uniform(1.6, 3.4), rnd.uniform(0, 3)))
     out.append(move(flip([theropod(0), theropod(1)], 0.7), [(-32, G - 23), (W + 2, G - 23)], 16))
     out.append(runs(txt))
+    # แถบฉายาวิ่งจากขวาไปซ้าย วนต่อกันไม่มีรอยต่อ (วาดข้อความสองรอบ เลื่อนไปหนึ่งช่วง)
+    ty, tick = 31, " * ".join(E27_TITLES) + " * "
+    period = len(tick) * 6
+    band = blank(W, 9)
+    for x in range(2, W - 2):
+        band[0][x] = band[8][x] = "#3a3f8f"
+        for y in range(1, 8):
+            band[y][x] = "#0b0c29"
+    strip = blank(2 * period, 7)
+    for off in (0, period):
+        for x, y, r in text_pixels(tick):
+            put(strip, off + x, y, mix("#fff1a3", "#f08a2c", r / 6))
+    out.append(f'<g transform="translate(0 {ty - 1})">{runs(band)}</g>')
+    out.append(f'<clipPath id="tick"><rect x="2" y="0" width="{W - 4}" height="7"/></clipPath>'
+               f'<g transform="translate(0 {ty})" clip-path="url(#tick)">{move(runs(strip), [(4, 0), (4 - period, 0)], round(period / 28))}</g>')
     out.append(f'<g>{runs(edge)}<animate attributeName="opacity" values="0.45;1;0.45" dur="2.4s" repeatCount="indefinite"/></g>')
     out.append("</svg>")
     return "".join(out)

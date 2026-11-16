@@ -155,3 +155,5 @@ fetch the data with `scripts/fetch_*.py`, then run notebooks 01 → 16 (`sh scri
 ## 🏅 Special contributor
 
 <p align="center"><a href="https://github.com/E27-25"><img src="assets/readme/contributor.svg" alt="Special contributor: E27-25" width="100%"></a></p>
+
+<p align="center"><b><a href="https://github.com/E27-25">@E27-25</a></b>, <i>King of All Dinos, Emperor of the Jurassic, Lord of the 8,521 Fossils, Guardian of the 518 Sites, Ruler of All 20,706 Map Cells, Supreme Overlord of the Khorat Plateau, Whisperer of Phuwiangosaurus, Best Friend of Siamotyrannus, Chiropractor of Siamosaurus, Tamer of XGBoost, Shepherd of 10,000 Decision Trees, Slayer of Overfitting, Breaker of NaN, Banisher of Data Leakage, Keeper of the Golden Rock Hammer, High Priest of Spatial Cross-Validation, Master of the ONNX Hologram, Survivor of the Asteroid (it missed him), Digger of Holes with 0.887 AUC, The One Who Makes Trilobites Bow, Sole Reason the 227 Tests Pass, Father of Pangea, First of His Commit, The Un-reverted, Protector of the Realm of Sao Khua, Eater of Bugs (the code kind), Lord of the Dino Nuggets, and so on and so on and so on…</i> 🦖👑</p>
