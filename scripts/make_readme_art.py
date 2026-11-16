@@ -816,61 +816,197 @@ def wrap_titles(titles, max_chars):
     return lines + [cur]
 
 
+def _edge(m):
+    return m & ~(np.roll(m, 1, 0) & np.roll(m, -1, 0) & np.roll(m, 1, 1) & np.roll(m, -1, 1))
+
+
+def nudibranch(frame, kind):
+    # ทากทะเล (nudibranch) คลานไปทางขวา 26 × 13 สองแบบ: "flab" ม่วงมีติ่งส้ม-เหลืองบนหลัง / "chromo" น้ำเงินขอบเหลืองมีพู่เหงือกส้ม
+    sp = Sprite(26, 13)
+    sp.ellipse(12.5, 9, 10, 2.4)                                   # ลำตัว
+    sp.ellipse(12.5, 10.6, 10.8, 1.2)                              # เท้า
+    sp.curve((4, 9.5), (1.6, 10.6), (0.3, 11.2), 1.6, 0.5)         # หาง
+    w = 0.5 if frame else -0.5
+    sp.curve((20.5, 7.6), (21, 5), (21.4 + w, 2.6), 0.8, 0.5, "rh")    # หนวดรับกลิ่น (rhinophore)
+    sp.curve((22.5, 7.8), (23.6, 5.2), (24.6 + w, 3.2), 0.8, 0.5, "rh")
+    sp.curve((22, 9.6), (24, 10), (25.6, 11 + w), 0.6, 0.45, "rh")       # หนวดปาก
+    if kind == "flab":
+        for i, x in enumerate(np.arange(5, 19.5, 2.7)):
+            sway = 0.6 if (i + frame) % 2 else -0.6
+            sp.curve((x, 7.6), (x + sway * 0.5, 5.4), (x + sway, 2.4 + (i % 2) * 1.2), 0.62, 0.42, "cer")
+        body, edge, base, tip, rh = ("#c39bff", "#9d6ff0"), "#f6eeff", "#ff6fae", "#fff36b", "#ff9a3c"
+    else:
+        for k, (ex, ey) in enumerate([(2.6, 4.2), (4.6, 2.6), (6.8, 2.6), (8.8, 4.2)]):
+            sp.curve((5.7, 7.6), ((5.7 + ex) / 2 + w * 0.3, 5.6), (ex + w * 0.4, ey), 0.55, 0.4, "cer")
+        body, edge, base, tip, rh = ("#3f7bff", "#2a55e0"), "#ffd23f", "#ff8a3d", "#ffd0a0", "#ff8a3d"
+    near, cer, rhm = sp.mask("near"), sp.mask("cer"), sp.mask("rh")
+    e = _edge(near)
+    rows = np.where(cer.any(1))[0]
+    g = blank(26, 13)
+    for y in range(13):
+        for x in range(26):
+            if rhm[y, x]:
+                g[y][x] = rh if y > 3 else "#fff6dc"
+            if near[y, x]:
+                if e[y, x]:
+                    g[y][x] = edge
+                elif kind == "chromo" and (x * 7 + y * 3) % 11 == 0:
+                    g[y][x] = "#ffffff"                              # จุดขาวบนตัว
+                else:
+                    g[y][x] = body[0] if y < 9 else body[1]
+            if cer[y, x] and not (near[y, x] and y >= 8):
+                g[y][x] = tip if y <= rows.min() + 1 else base
+    return g
+
+
+TEAL = {"edge": "#e6fff6", "hi": "#7ff5cf", "mid": "#33cfa6", "lo": "#1d9a82", "far": "#147563", "eye": "#062a24"}
+
+
+def plesiosaur(frame):
+    # พลีซิโอซอร์ (สัตว์เลื้อยคลานทะเลคอยาว) ว่ายไปทางขวา 44 × 20: พายครีบสองท่า
+    sp = Sprite(44, 20)
+    down = lambda x: [(x + 2.5, 12), (x - 1, 19.6), (x - 3.6, 19.2), (x - 2.5, 12)]   # ครีบพายลง / ยกขึ้น
+    up = lambda x: [(x + 2.5, 10), (x - 1, 2.4), (x - 3.6, 2.8), (x - 2.5, 10)]
+    near, far = (down, up) if frame == 0 else (up, down)
+    for x in (22, 12):
+        sp.poly(far(x + 1), "far")
+        sp.poly(near(x), "near")
+    sp.ellipse(17, 11, 9, 3.4)                                     # ลำตัว
+    sp.curve((9, 11), (4, 11.5), (0.5, 12.5), 2.6, 0.5)            # หาง
+    sp.curve((25, 10), (32, 7.5), (37.5, 5), 2.0, 1.2)             # คอยาว
+    sp.ellipse(39.8, 4.6, 2.9, 1.8)                                # หัว
+    sp.poly([(41.5, 3.8), (43.8, 5), (41.5, 5.8)])                 # ปาก
+    return holo(sp, TEAL, [(40, 3, "eye")], scan=False)
+
+
+CORAL_BRANCH = [" #   # ", " # # # ", "## # ##", " ##### ", "  ###  ", "   #   ", "   #   "]
+CORAL_FAN = ["  # #  ", " # # # ", "# # # #", " ##### ", "  ###  ", "   #   ", "   #   "]
+CORAL_BRAIN = ["  ####  ", " ###### ", "########"]
+CRINOID = ["#  #  #", " # # # ", "  ###  ", "   #   "]
+STARFISH = ["  #  ", "#####", " ### ", " # # "]
+
+
+def outlined(g, s, x0, y0, scale, colf, line):
+    pix = text_pixels(s, scale)
+    for x, y, r in pix:
+        for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1), (1, 1), (0, 2), (1, 2)):
+            put(g, x0 + x + dx, y0 + y + dy, line)
+    for x, y, r in pix:
+        put(g, x0 + x, y0 + y, colf(r))
+
+
 def contributor():
-    # ป้ายท้าย README: ผู้ร่วมพัฒนาพิเศษ @E27-25 พร้อมฉายาครบทุกชื่อ (กรอบทอง ดาวกะพริบ แถบสแกน เทอโรพอดเดินผ่าน)
-    W, LH, T0 = 320, 10, 38
-    lines = wrap_titles(E27_TITLES, (W - 16) // 6)
-    G = T0 + len(lines) * LH + 28
-    H = G + 8
+    # ป้ายท้าย README: ผู้ร่วมพัฒนาพิเศษ @E27-25 พร้อมฉายาครบทุกชื่อ บนฉากใต้ทะเลสีสดใส
+    # มีทากทะเล 2 ตัว + สัตว์ดึกดำบรรพ์: พลีซิโอซอร์ แอมโมไนต์ ไทรโลไบต์ พลับพลึงทะเล (crinoid)
+    W, LH, T0 = 320, 10, 42
+    lines = wrap_titles(E27_TITLES, (W - 24) // 6)
+    L0 = T0 + len(lines) * LH + 6                                   # ช่องว่ายน้ำของพลีซิโอซอร์
+    S = L0 + 34                                                     # พื้นทราย
+    H = S + 16
     rnd = random.Random(27)
     g = blank(W, H)
-    sky(g, 0, G, ["#06071c", "#0b0c29", "#141845", "#1f2560", "#2a2a6e"])
-    for x in range(W):
-        h = int(4 + 2 * math.sin(x / 15) + math.sin(x / 6 + 2))
-        for y in range(G - h, G):
-            g[y][x] = "#161a4a"
-    for tx in (14, 92, 210, 296):
-        stamp(g, ARAUCARIA, tx, G - 8 - rnd.randrange(0, 3), "#0e1238")
-    strata(g, G, rnd, [("ammonite", 30), ("bone", 110), ("trilobite", 190), ("shell", 270)])
+    sky(g, 0, S + 2, ["#8af0ff", "#5fdcff", "#36bff2", "#1f9fe0", "#1784cc", "#136dba"])
+    for x in range(W):                                              # พื้นทราย + ซากในทราย
+        top = S + round(0.9 * math.sin(x / 13) + 0.6 * math.sin(x / 5.1))
+        for y in range(top, H):
+            c = "#ffe7a8" if y == top else "#ffd486" if y < top + 4 else "#f2b86a"
+            g[y][x] = c if rnd.random() > 0.07 else "#fff7e0"
+    for name, fx in (("ammonite", 40), ("bone", 132), ("trilobite", 214), ("shell", 290)):
+        stamp(g, FOSSILS[name], fx, S + 6, "#fffaf0")
+    for art, x, col in ((CORAL_BRANCH, 8, "#ff5fa2"), (CORAL_FAN, 70, "#b06bff"), (CORAL_BRAIN, 118, "#ffcf4a"),
+                        (CORAL_BRANCH, 176, "#ff9a3c"), (CORAL_FAN, 248, "#ff5fa2"), (CORAL_BRAIN, 300, "#7fe36b")):
+        stamp(g, art, x, S - len(art) + 1, col)
+    for cx, h in ((52, 12), (232, 15)):                             # พลับพลึงทะเล (crinoid) ก้านยาว
+        for y in range(S - h, S + 1):
+            g[y][cx + 3] = "#e0568f"
+        stamp(g, CRINOID, cx, S - h - 4, "#ff8fc4")
+    for sx in (100, 278):
+        stamp(g, STARFISH, sx, S - 1, "#ff7a45")
     cut_corners(g)
+
+    out = [svg_open(W, H, "Special contributor: E27-25, " + ", ".join(t.title() for t in E27_TITLES)), runs(g)]
+    for x0, d, b in ((40, 5, 0), (130, 6, 1.5), (220, 4.5, 3), (300, 5.5, 2)):   # ลำแสงแดดส่องลงน้ำ
+        out.append(f'<polygon points="{x0},0 {x0 + 18},0 {x0 - 14},{S} {x0 - 32},{S}" fill="#ffffff" opacity="0.1">'
+                   f'<animate attributeName="opacity" values="0.05;0.2;0.05" dur="{d}s" begin="{b}s" repeatCount="indefinite"/></polygon>')
+    wave = blank(2 * W, 2)
+    for x in range(2 * W):
+        if x % 16 < 6:
+            wave[0][x] = "#ffffff"
+        elif 8 <= x % 16 < 11:
+            wave[1][x] = "#c9f7ff"
+    out.append(move(runs(wave), [(0, 1), (-W, 1)], 14))
+    for sx in (30, 92, 160, 196, 268, 312):                         # สาหร่ายไหว
+        frames = []
+        for f in (0, 1):
+            fr = blank(W, H)
+            for k, hh in enumerate((rnd.randrange(10, 18), rnd.randrange(7, 13))):
+                for d in range(hh):
+                    x = sx + 2 * k + round((d / hh) * 1.8 * math.sin(d * 0.5 + f * math.pi + k))
+                    put(fr, x, S - d, "#5cf29a" if d % 3 == 0 else "#2fcf7a")
+            frames.append(fr)
+        out.append(flip(frames, 1.8))
+    # สัตว์ที่ว่ายผ่านด้านหลังรายชื่อ: แอมโมไนต์ + ฝูงปลาสีเหลือง
+    out.append(move(move(flip([ammonite(0), ammonite(1)], 0.8), [(0, 0), (0, -2), (0, 0)], 2.4), [(-26, 12), (W + 2, 9)], 24))
+    out.append(move(move(flip([ammonite(1), ammonite(0)], 0.8), [(0, 0), (0, 2), (0, 0)], 2.8), [(-26, L0 - 30), (W + 2, L0 - 34)], 30, begin=-12))
+    fish = blank(6, 3)
+    stamp(fish, FISH, 0, 0, "#ffe14a")
+    for x in range(6):
+        if fish[1][x]:
+            fish[1][x] = "#ff9a3c" if x in (2, 3) else fish[1][x]
+    fish[1][1] = "#13325c"
+    school = "".join(f'<g transform="translate({dx} {dy})">{runs(fish)}</g>' for dx, dy in ((0, 0), (9, -4), (10, 4), (19, 1), (27, -3)))
+    out.append(move(school, [(W + 4, 24), (-36, 28)], 15, begin=1))
+    # การ์ดรายชื่อฉายา (พื้นน้ำเงินเข้มโปร่ง ขอบฟ้า)
+    cy0, cy1 = T0 - 6, T0 + len(lines) * LH + 1
+    out.append(f'<rect x="8" y="{cy0}" width="{W - 16}" height="{cy1 - cy0}" fill="#0b2a5c" opacity="0.8"/>')
+    card = blank(W, H)
+    for x in range(9, W - 9):
+        card[cy0][x] = card[cy1 - 1][x] = "#9fe9ff"
+    for y in range(cy0 + 1, cy1 - 1):
+        card[y][8] = card[y][W - 9] = "#9fe9ff"
+    txt = blank(W, H)
     label, name = "SPECIAL CONTRIBUTOR", "@E27-25"
     lw, nw = text_width(label), text_width(name, 2)
-    txt = blank(W, H)
-    for x, y, r in text_pixels(label):
-        put(txt, (W - lw) // 2 + x, 5 + y, "#9fe9ff")
+    outlined(txt, label, (W - lw) // 2, 5, 1, lambda r: "#ffffff", "#0b3a6e")
     nx = (W - nw) // 2
-    for x, y, r in text_pixels(name, 2):
-        put(txt, nx + x, 16 + y + 1, "#5a2410")
-    for x, y, r in text_pixels(name, 2):
-        put(txt, nx + x, 16 + y, mix("#fff1a3", "#f08a2c", r / 6))
-    for sx in (nx - 12, nx + nw + 7):                               # ดาวทองสองข้างชื่อ
-        stamp(txt, [" # ", "###", " # "], sx, 20, "#ffd86b")
-    for x in range(W // 2 - 60, W // 2 + 61):                       # เส้นคั่นใต้ชื่อ
-        if x % 4 != 3:
-            put(txt, x, T0 - 5, "#3a3f8f")
+    outlined(txt, name, nx, 16, 2, lambda r: mix("#fff6b0", "#ff9a3c", r / 6), "#0b2a5c")
+    for sx in (nx - 13, nx + nw + 8):
+        stamp(txt, [" # ", "###", " # "], sx, 20, "#ffffff")
     cols = ["#fff1a3", "#9fe9ff"]
-    for i, line in enumerate(lines):                                # ฉายาทั้งหมด: สลับสีทอง / ฟ้า ทีละบรรทัด, ดาวคั่นสีส้ม
+    for i, line in enumerate(lines):                                # ฉายาทั้งหมด สลับสีทอง / ฟ้า, ดาวคั่นสีชมพู
         x0, y0 = (W - text_width(line)) // 2, T0 + i * LH
         for k, ch in enumerate(line):
-            c = "#f29a3f" if ch == "*" else cols[i % 2]
+            c = "#ff8fc4" if ch == "*" else cols[i % 2]
             for x, y, r in text_pixels(ch):
-                put(txt, x0 + k * 6 + x, y0 + y, mix(c, "#c76f22", r / 10) if ch != "*" and i % 2 == 0 else c)
+                put(txt, x0 + k * 6 + x, y0 + y, mix(c, "#ffb04a", r / 10) if ch != "*" and i % 2 == 0 else c)
+    out.append(runs(card) + runs(txt))
+    out.append(f'<rect x="10" width="{W - 20}" height="1" fill="#ffffff" opacity="0.15">'
+               f'<animate attributeName="y" values="{cy0 + 1};{cy1 - 2}" dur="4s" repeatCount="indefinite"/></rect>')
+    # ช่องล่าง: พลีซิโอซอร์ว่ายผ่าน, ทากทะเลและไทรโลไบต์คลานบนพื้นทราย
+    out.append(f'<g transform="translate(0 {L0 + 2})">{move(move(flip([plesiosaur(0), plesiosaur(1)], 1.0), [(0, 0), (0, 2), (0, 0)], 2), [(-46, 0), (W + 2, 0)], 20)}</g>')
+    out.append(f'<g transform="translate(0 {S - 11})">{move(flip([nudibranch(0, "flab"), nudibranch(1, "flab")], 0.9), [(-28, 0), (W + 2, 0)], 46)}</g>')
+    out.append(f'<g transform="translate(0 {S - 11})">{move(flip([nudibranch(0, "chromo"), nudibranch(1, "chromo")], 1.1), [(-28, 0), (W + 2, 0)], 46, begin=-23)}</g>')
+    tri = [blank(9, 4), blank(9, 4)]
+    for f in (0, 1):
+        stamp(tri[f], TRILOBITE[f], 0, 0, "#b9a3f0")
+        for x in range(9):
+            if tri[f][0][x]:
+                tri[f][0][x] = "#efe6ff"
+            if tri[f][3][x]:
+                tri[f][3][x] = "#7b5fc0"
+    out.append(f'<g transform="translate(0 {S - 3})">{move(flip(tri, 0.5), [(W + 4, 0), (-12, 0)], 36, begin=-8)}</g>')
+    for _ in range(14):                                             # ฟองอากาศ
+        x, sz, d = rnd.randrange(6, W - 6), rnd.choice((1, 1, 2)), rnd.uniform(5, 9)
+        b = rnd.uniform(0, 6)
+        out.append(f'<rect x="{x}" y="{S - 2}" width="{sz}" height="{sz}" fill="#ffffff" opacity="0.8">'
+                   f'<animate attributeName="y" values="{S - 2};2" dur="{d:.1f}s" begin="{b:.1f}s" repeatCount="indefinite"/>'
+                   f'<animate attributeName="opacity" values="0.9;0.9;0" keyTimes="0;0.85;1" dur="{d:.1f}s" begin="{b:.1f}s" repeatCount="indefinite"/></rect>')
     edge = blank(W, H)
     for x in range(2, W - 2):
         edge[0][x] = edge[H - 1][x] = "#ffd86b"
     for y in range(2, H - 2):
         edge[y][0] = edge[y][W - 1] = "#ffd86b"
-    out = [svg_open(W, H, "Special contributor: E27-25, " + ", ".join(t.title() for t in E27_TITLES)), runs(g)]
-    for _ in range(18):
-        x, y = rnd.randrange(4, W - 4), rnd.randrange(2, 30)
-        if (W - lw) // 2 - 16 <= x <= (W + lw) // 2 + 16:
-            continue
-        out.append(twinkle(x, y, rnd.choice(["#ffffff", "#c8f6ff", "#fff1a3"]), rnd.uniform(1.6, 3.4), rnd.uniform(0, 3)))
-    out.append(f'<g transform="translate(0 {G - 23})">{move(flip([theropod(0), theropod(1)], 0.7), [(-32, 0), (W + 2, 0)], 18)}</g>')
-    out.append(runs(txt))
-    out.append(f'<rect x="4" width="{W - 8}" height="1" fill="#e9fdff" opacity="0.18">'      # แถบสแกนไล่ลงบนรายชื่อฉายา
-               f'<animate attributeName="y" values="{T0 - 2};{T0 + len(lines) * LH}" dur="4s" repeatCount="indefinite"/></rect>')
-    out.append(f'<g>{runs(edge)}<animate attributeName="opacity" values="0.45;1;0.45" dur="2.4s" repeatCount="indefinite"/></g>')
+    out.append(f'<g>{runs(edge)}<animate attributeName="opacity" values="0.55;1;0.55" dur="2.4s" repeatCount="indefinite"/></g>')
     out.append("</svg>")
     return "".join(out)
 
