@@ -1,0 +1,52 @@
+# แพ็กเกจที่เว็บแอป (webapp/server.py + notebooks/*_lib.py) ใช้จริง — ล็อกเวอร์ชันตาม .venv ของเครื่องที่ train
+# ติดตั้ง:  uv pip install -r requirements-webapp.txt   (Linux: ติดตั้ง torch แบบ CPU ก่อน)
+# macOS: ติดตั้งเสร็จแล้วรัน sh scripts/fix_openmp.sh (LightGBM / XGBoost กับ PyTorch ต้องใช้ libomp ตัวเดียวกัน)
+
+# เว็บ
+fastapi==0.143.2
+uvicorn==0.54.0
+pydantic==2.14.1
+
+# ข้อมูล / ภูมิสารสนเทศ
+numpy==2.5.3
+pandas==3.0.6
+pyarrow==26.0.0
+geopandas==1.2.0
+pyogrio==0.13.0
+shapely==2.2.0
+pyproj==3.8.0
+rasterio==1.5.2
+rioxarray==0.23.0
+xarray==2026.9.0
+netCDF4==1.7.4
+scipy==1.18.1
+pygplates==1.0.0
+plate-model-manager==1.3.2
+
+# โมเดล
+scikit-learn==1.9.1
+xgboost==3.4.1
+lightgbm==4.7.0
+joblib==1.6.0
+torch==2.14.1
+transformers==5.19.0
+tokenizers==0.23.3
+sentencepiece==0.2.2
+protobuf==7.36.2           # ใช้แปลง tokenizer ของ WangchanBERTa (ไม่มี = โหลด tokenizer ไม่ได้)
+safetensors==0.8.0
+huggingface_hub==1.33.0
+
+# ข้อความไทย
+pythainlp==5.4.0
+RapidFuzz==3.14.6
+
+# ภาพดาวเทียม (Planetary Computer)
+pystac==1.15.2
+pystac-client==0.9.0
+planetary-computer==1.0.0
+requests==2.34.2
+tqdm==4.70.1
+
+# ชุดทดสอบ (tests/test_webapp.py)
+pytest==9.1.1
+httpx==0.28.1

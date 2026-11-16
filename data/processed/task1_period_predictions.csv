@@ -1,0 +1,353 @@
+﻿OBJECTID,pred_period,p,pred_period_th,PERIOD_FINAL,final_old,final_confidence,final_source,agree_with_05,fill_used_in_train
+11175,Jurassic,0.4950431211453258,จูแรสซิก,,,,missing,,False
+11176,Carboniferous,0.9791696453725658,คาร์บอนิเฟอรัส,คาร์บอนิเฟอรัส,Carboniferous,medium,03 PBDB nearby,1.0,True
+11178,Jurassic,0.726272548437742,จูแรสซิก,จูแรสซิก,Jurassic,low,03 PBDB nearby,1.0,False
+11179,Permian,0.8694306153003714,เพอร์เมียน,เพอร์เมียน,Permian,medium,04 taxon hybrid,1.0,False
+11180,Triassic,0.5701351134328404,ไทรแอสซิก,,,,missing,,False
+11182,Jurassic,0.6458820504757057,จูแรสซิก,จูแรสซิกถึงครีเทเชียส,Jurassic,low,03 PBDB nearby,1.0,False
+11183,Cretaceous,0.9962309185857608,ครีเทเชียส,ครีเทเชียส,Cretaceous,low,03 PBDB nearby,1.0,False
+11184,Cretaceous,0.9902356672888362,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11185,Jurassic,0.9652195228959323,จูแรสซิก,จูแรสซิก,Jurassic,medium,04 taxon hybrid,1.0,False
+11186,Cretaceous,0.9572569898763946,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11187,Cretaceous,0.9975243453973383,ครีเทเชียส,ครีเทเชียส,Cretaceous,low,03 PBDB nearby,1.0,False
+11188,Cretaceous,0.9971488094604608,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby,1.0,True
+11189,Cretaceous,0.9954643712163839,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11190,Cambrian,0.9963410164651992,แคมเบรียน,แคมเบรียนถึงออร์โดวิเชียน,Cambrian,medium,03 PBDB nearby,1.0,True
+11191,Cretaceous,0.9721564112445003,ครีเทเชียส,,,,missing,,False
+11192,Jurassic,0.6180603404848372,จูแรสซิก,จูแรสซิกถึงครีเทเชียส,Jurassic,low,03 PBDB nearby,1.0,False
+11193,Jurassic,0.9627429147707474,จูแรสซิก,จูแรสซิก,Jurassic,medium,04 taxon hybrid,1.0,False
+11195,Devonian,0.9928400830728072,ดีโวเนียน,ดีโวเนียน,Devonian,medium,03 PBDB nearby,1.0,True
+11196,Quaternary,0.6438660504879674,ควอเทอร์นารี,,,,missing,,False
+11197,Ordovician,0.952759812617783,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,medium,03 PBDB nearby,1.0,True
+11198,Cambrian,0.9783406948541543,แคมเบรียน,แคมเบรียน,Cambrian,medium,04 taxon hybrid,1.0,False
+11199,Ordovician,0.6054718886997729,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,low,03 PBDB nearby,1.0,False
+11200,Carboniferous,0.5594084936726664,คาร์บอนิเฟอรัส,,,,missing,,False
+11201,Ordovician,0.4524474041701286,ออร์โดวิเชียน,,,,missing,,False
+11202,Carboniferous,0.5736083380462145,คาร์บอนิเฟอรัส,คาร์บอนิเฟอรัส,Carboniferous,medium,04 taxon hybrid,1.0,False
+11203,Cretaceous,0.42021004002133705,ครีเทเชียส,,,,missing,,False
+11204,Tertiary,0.987297392859888,เทอร์เชียรี,เทอร์เชียรี,Tertiary,medium,03 PBDB nearby,1.0,True
+11205,Permian,0.9959843038892432,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11206,Permian,0.9948311743256476,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11207,Permian,0.9983483386067897,เพอร์เมียน,,,,missing,,False
+11208,Ordovician,0.6029323394362653,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,low,03 PBDB nearby,1.0,False
+11209,Devonian,0.9942774349068612,ดีโวเนียน,ดีโวเนียน,Devonian,medium,03 PBDB nearby,1.0,True
+11210,Devonian,0.9942828137205278,ดีโวเนียน,ดีโวเนียน,Devonian,medium,03 PBDB nearby,1.0,True
+11211,Jurassic,0.8581734233274202,จูแรสซิก,,,,missing,,False
+11212,Permian,0.9825006143153729,เพอร์เมียน,,,,missing,,False
+11213,Jurassic,0.9744460482837555,จูแรสซิก,จูแรสซิก,Jurassic,high,03 PBDB nearby,1.0,True
+11214,Permian,0.8302871191854567,เพอร์เมียน,,,,missing,,False
+11215,Ordovician,0.4850676082393184,ออร์โดวิเชียน,,,,missing,,False
+11216,Ordovician,0.49864781354847304,ออร์โดวิเชียน,,,,missing,,False
+11217,Permian,0.8891399703613582,เพอร์เมียน,คาร์บอนิเฟอรัส,Carboniferous,low,03 PBDB nearby,0.0,False
+11218,Cretaceous,0.9948988365312085,ครีเทเชียส,,,,missing,,False
+11221,Ordovician,0.7438958793367768,ออร์โดวิเชียน,คาร์บอนิเฟอรัส,Carboniferous,low,03 PBDB nearby,0.0,False
+11222,Jurassic,0.8107814325624276,จูแรสซิก,เพอร์เมียน,Permian,medium,04 taxon hybrid,0.0,False
+11223,Cretaceous,0.9977866086537907,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11224,Cretaceous,0.9978403236921478,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11225,Permian,0.9785642457529938,เพอร์เมียน,,,,missing,,False
+11226,Permian,0.5916205628815964,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11227,Cretaceous,0.9979737758550078,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11228,Triassic,0.6750500905444969,ไทรแอสซิก,,,,missing,,False
+11229,Triassic,0.7747035999351713,ไทรแอสซิก,,,,missing,,False
+11230,Permian,0.9893383698318398,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11231,Tertiary,0.9946085735211261,เทอร์เชียรี,เทอร์เชียรี,Tertiary,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11232,Permian,0.9936307921665005,เพอร์เมียน,,,,missing,,False
+11233,Permian,0.6926133415336869,เพอร์เมียน,,,,missing,,False
+11234,Permian,0.9287652996145772,เพอร์เมียน,,,,missing,,False
+11235,Permian,0.7994293535064918,เพอร์เมียน,,,,missing,,False
+11236,Permian,0.9830921427649203,เพอร์เมียน,เพอร์เมียน,Permian,high,03 PBDB nearby,1.0,True
+11237,Permian,0.9839959525887155,เพอร์เมียน,เพอร์เมียน,Permian,high,03 PBDB nearby,1.0,True
+11238,Jurassic,0.8620746515764635,จูแรสซิก,เทอร์เชียรี,Tertiary,low,03 PBDB nearby,0.0,False
+11239,Permian,0.8888060560586156,เพอร์เมียน,,,,missing,,False
+11240,Cretaceous,0.9971468120496125,ครีเทเชียส,ครีเทเชียส,Cretaceous,high,03 PBDB nearby,1.0,True
+11241,Cambrian,0.9666724877748938,แคมเบรียน,แคมเบรียน,Cambrian,medium,04 taxon hybrid,1.0,False
+11242,Permian,0.980144157355659,เพอร์เมียน,,,,missing,,False
+11246,Tertiary,0.9894940277554996,เทอร์เชียรี,เทอร์เชียรี,Tertiary,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11247,Permian,0.9855919666468879,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11248,Quaternary,0.7395206562289203,ควอเทอร์นารี,,,,missing,,False
+11249,Quaternary,0.7957164664164089,ควอเทอร์นารี,,,,missing,,False
+11250,Permian,0.982916844692255,เพอร์เมียน,,,,missing,,False
+11251,Jurassic,0.9832536882791312,จูแรสซิก,ออร์โดวิเชียน,Ordovician,low,04 taxon hybrid,0.0,False
+11252,Permian,0.4715972461307211,เพอร์เมียน,จูแรสซิก,Jurassic,low,03 PBDB nearby,0.0,False
+11253,Ordovician,0.5109307099529949,ออร์โดวิเชียน,,,,missing,,False
+11266,Cretaceous,0.9860997066475476,ครีเทเชียส,,,,missing,,False
+11268,Permian,0.8257245839183556,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby,1.0,True
+11269,Triassic,0.9739333650027331,ไทรแอสซิก,เพอร์เมียน,Permian,low,03 PBDB nearby,0.0,False
+11270,Tertiary,0.9901155070704487,เทอร์เชียรี,เทอร์เชียรี,Tertiary,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11271,Cretaceous,0.9891566029130869,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,04 taxon hybrid,1.0,False
+11272,Permian,0.9613777993760151,เพอร์เมียน,เพอร์เมียน,Permian,high,03 PBDB nearby,1.0,True
+11273,Jurassic,0.8321980158889953,จูแรสซิก,,,,missing,,False
+11274,Ordovician,0.6441791379182952,ออร์โดวิเชียน,,,,missing,,False
+11275,Cretaceous,0.996741342742577,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11277,Ordovician,0.9715059456967401,ออร์โดวิเชียน,,,,missing,,False
+11278,Ordovician,0.8887618534352506,ออร์โดวิเชียน,,,,missing,,False
+11279,Ordovician,0.9845270716281933,ออร์โดวิเชียน,ออร์โดวิเชียนถึงไซลูเรียน,Ordovician,high,03 PBDB nearby,1.0,True
+11282,Permian,0.9824352982562823,เพอร์เมียน,,,,missing,,False
+11283,Triassic,0.4035311922148334,ไทรแอสซิก,,,,missing,,False
+11284,Cretaceous,0.9962162496892017,ครีเทเชียส,ครีเทเชียส,Cretaceous,low,03 PBDB nearby,1.0,False
+11285,Cretaceous,0.9975014725482452,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby,1.0,True
+11286,Cretaceous,0.9343297652582646,ครีเทเชียส,,,,missing,,False
+11288,Jurassic,0.7552605239370371,จูแรสซิก,,,,missing,,False
+11289,Triassic,0.977992378026048,ไทรแอสซิก,,,,missing,,False
+11291,Carboniferous,0.5736083380462145,คาร์บอนิเฟอรัส,คาร์บอนิเฟอรัส,Carboniferous,medium,04 taxon hybrid,1.0,False
+11292,Triassic,0.9833406065099642,ไทรแอสซิก,,,,missing,,False
+11294,Cretaceous,0.9925273320637892,ครีเทเชียส,,,,missing,,False
+11297,Ordovician,0.6999470172159934,ออร์โดวิเชียน,,,,missing,,False
+11303,Permian,0.9776606013110917,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB taxon + 04 taxon hybrid,1.0,True
+11304,Permian,0.9776606013110917,เพอร์เมียน,,,,missing,,False
+11305,Devonian,0.9956379168457148,ดีโวเนียน,ดีโวเนียน,Devonian,medium,03 PBDB nearby,1.0,True
+11306,Permian,0.7865971788075213,เพอร์เมียน,ไทรแอสซิก,Triassic,medium,04 taxon hybrid,0.0,False
+11307,Devonian,0.5661424307202689,ดีโวเนียน,,,,missing,,False
+11308,Permian,0.5156525720704457,เพอร์เมียน,เพอร์เมียน,Permian,low,04 taxon hybrid,1.0,False
+11309,Ordovician,0.39132198194253515,ออร์โดวิเชียน,,,,missing,,False
+11310,Permian,0.9779480985609443,เพอร์เมียน,เพอร์เมียน,Permian,medium,04 taxon hybrid,1.0,False
+11311,Permian,0.8742536049511036,เพอร์เมียน,,,,missing,,False
+11312,Jurassic,0.41421261188125175,จูแรสซิก,,,,missing,,False
+11315,Permian,0.9738481615655271,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11316,Carboniferous,0.9783508802050384,คาร์บอนิเฟอรัส,คาร์บอนิเฟอรัส,Carboniferous,medium,03 PBDB nearby,1.0,True
+11321,Jurassic,0.9960713478124223,จูแรสซิก,จูแรสซิก,Jurassic,medium,03 PBDB nearby,1.0,True
+11323,Jurassic,0.9697682018345652,จูแรสซิก,จูแรสซิก,Jurassic,medium,03 PBDB nearby,1.0,True
+11324,Jurassic,0.9950227292362418,จูแรสซิก,จูแรสซิก,Jurassic,medium,03 PBDB nearby,1.0,True
+11325,Permian,0.9862925824388692,เพอร์เมียน,,,,missing,,False
+11326,Permian,0.2746511159653904,เพอร์เมียน,เพอร์เมียน,Permian,medium,04 taxon hybrid,1.0,False
+11327,Permian,0.976824369243965,เพอร์เมียน,,,,missing,,False
+11328,Permian,0.9852206587609496,เพอร์เมียน,,,,missing,,False
+11329,Devonian,0.9717524932395214,ดีโวเนียน,ดีโวเนียน,Devonian,low,03 PBDB nearby,1.0,False
+11330,Devonian,0.9486402683253434,ดีโวเนียน,ดีโวเนียน,Devonian,low,03 PBDB nearby,1.0,False
+11331,Permian,0.9486475275090367,เพอร์เมียน,จูแรสซิก,Jurassic,medium,04 taxon hybrid,0.0,False
+11340,Permian,0.8264316261818803,เพอร์เมียน,เพอร์เมียน,Permian,low,04 taxon hybrid,1.0,False
+11351,Cretaceous,0.9977718641156466,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11352,Devonian,0.9946802990216235,ดีโวเนียน,ดีโวเนียน,Devonian,low,03 PBDB nearby,1.0,False
+11353,Triassic,0.574119212976176,ไทรแอสซิก,,,,missing,,False
+11354,Permian,0.5631135458052814,เพอร์เมียน,,,,missing,,False
+11355,Triassic,0.9110015134198179,ไทรแอสซิก,,,,missing,,False
+11356,Permian,0.9849946333182109,เพอร์เมียน,เพอร์เมียน,Permian,high,03 PBDB nearby,1.0,True
+11357,Permian,0.9913218351082261,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11360,Permian,0.8863982085281121,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB taxon + 04 taxon hybrid,1.0,True
+11361,Cambrian,0.9876192360221611,แคมเบรียน,,,,missing,,False
+11362,Jurassic,0.9926644165412231,จูแรสซิก,จูแรสซิก,Jurassic,high,03 PBDB nearby,1.0,True
+11363,Triassic,0.944965726005896,ไทรแอสซิก,,,,missing,,False
+11364,Triassic,0.9900416074833582,ไทรแอสซิก,ไทรแอสซิก,Triassic,low,04 taxon hybrid,1.0,False
+11367,Permian,0.8758167530000635,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11368,Ordovician,0.9387528383410751,ออร์โดวิเชียน,เพอร์เมียน,Permian,medium,04 taxon hybrid,0.0,False
+11369,Permian,0.986217782966245,เพอร์เมียน,,,,missing,,False
+11370,Carboniferous,0.21084910303154986,คาร์บอนิเฟอรัส,,,,missing,,False
+11371,Permian,0.9825006143153729,เพอร์เมียน,,,,missing,,False
+11372,Permian,0.9745066577180277,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby,1.0,True
+11373,Carboniferous,0.41763493867155393,คาร์บอนิเฟอรัส,เพอร์เมียน,Permian,medium,04 taxon hybrid,0.0,False
+11374,Permian,0.9714260701656176,เพอร์เมียน,เพอร์เมียน,Permian,medium,04 taxon hybrid,1.0,False
+11375,Permian,0.9648072873512074,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby,1.0,True
+11376,Jurassic,0.7255317381021997,จูแรสซิก,จูแรสซิก,Jurassic,low,03 PBDB nearby,1.0,False
+11377,Ordovician,0.7525048534849447,ออร์โดวิเชียน,,,,missing,,False
+11380,Permian,0.958362488764198,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11381,Cretaceous,0.9978616859771665,ครีเทเชียส,,,,missing,,False
+11383,Cretaceous,0.9953266295472157,ครีเทเชียส,,,,missing,,False
+11384,Cretaceous,0.9975237053112213,ครีเทเชียส,,,,missing,,False
+11385,Cretaceous,0.9980652327699967,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby,1.0,True
+11386,Cretaceous,0.9972619699495453,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby,1.0,True
+11387,Cretaceous,0.8690081540624104,ครีเทเชียส,ครีเทเชียส,Cretaceous,low,03 PBDB nearby,1.0,False
+11388,Cretaceous,0.9955206579151998,ครีเทเชียส,,,,missing,,False
+11389,Permian,0.6660412205358774,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11390,Permian,0.9621759310486715,เพอร์เมียน,ดีโวเนียน,Devonian,medium,04 taxon hybrid,0.0,False
+11392,Cretaceous,0.9973679902753164,ครีเทเชียส,ครีเทเชียส,Cretaceous,low,03 PBDB nearby,1.0,False
+11393,Cretaceous,0.992775020819701,ครีเทเชียส,,,,missing,,False
+11394,Triassic,0.9417619123966643,ไทรแอสซิก,ไทรแอสซิก,Triassic,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11395,Triassic,0.6584620629340275,ไทรแอสซิก,ไทรแอสซิก,Triassic,low,03 PBDB nearby,1.0,False
+11396,Jurassic,0.4040209284736601,จูแรสซิก,,,,missing,,False
+11397,Cretaceous,0.9109343155852104,ครีเทเชียส,ครีเทเชียส,Cretaceous,low,03 PBDB nearby,1.0,False
+11398,Cretaceous,0.9981182332035596,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11400,Jurassic,0.527591062668518,จูแรสซิก,เพอร์เมียน,Permian,medium,04 taxon hybrid,0.0,False
+11401,Cretaceous,0.995328130471024,ครีเทเชียส,,,,missing,,False
+11402,Permian,0.578401605271652,เพอร์เมียน,เพอร์เมียน,Permian,low,04 taxon hybrid,1.0,False
+11403,Triassic,0.9825460414117871,ไทรแอสซิก,ไทรแอสซิก,Triassic,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11404,Permian,0.9295324984893769,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11405,Permian,0.99637350645619,เพอร์เมียน,,,,missing,,False
+11406,Jurassic,0.9317388000673492,จูแรสซิก,จูแรสซิก,Jurassic,low,03 PBDB nearby,1.0,False
+11407,Permian,0.725310394727178,เพอร์เมียน,เพอร์เมียน,Permian,low,04 taxon hybrid,1.0,False
+11408,Carboniferous,0.3280842968859369,คาร์บอนิเฟอรัส,ดีโวเนียน,Devonian,low,03 PBDB nearby,0.0,False
+11409,Jurassic,0.9653037729601448,จูแรสซิก,จูแรสซิก,Jurassic,medium,03 PBDB nearby,1.0,True
+11410,Cretaceous,0.9941174558670194,ครีเทเชียส,ครีเทเชียส,Cretaceous,high,03 PBDB nearby,1.0,True
+11411,Devonian,0.7433801464796642,ดีโวเนียน,,,,missing,,False
+11412,Ordovician,0.8279394084499863,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,low,03 PBDB nearby,1.0,False
+11413,Triassic,0.4348000969957429,ไทรแอสซิก,,,,missing,,False
+11415,Ordovician,0.6924716353733165,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,low,03 PBDB nearby,1.0,False
+11416,Ordovician,0.7695486161990965,ออร์โดวิเชียน,,,,missing,,False
+11417,Carboniferous,0.9744936902832897,คาร์บอนิเฟอรัส,คาร์บอนิเฟอรัส,Carboniferous,medium,03 PBDB taxon + 04 taxon hybrid,1.0,True
+11418,Jurassic,0.9358345987073551,จูแรสซิก,จูแรสซิก,Jurassic,low,04 taxon hybrid,1.0,False
+11419,Cretaceous,0.9956836921325735,ครีเทเชียส,,,,missing,,False
+11420,Permian,0.9950211995897276,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby,1.0,True
+11421,Permian,0.9752370304873884,เพอร์เมียน,เพอร์เมียน,Permian,medium,04 taxon hybrid,1.0,False
+11424,Jurassic,0.9380994484552077,จูแรสซิก,,,,missing,,False
+11425,Jurassic,0.95661592805281,จูแรสซิก,จูแรสซิก,Jurassic,medium,04 taxon hybrid,1.0,False
+11431,Permian,0.9785125080018807,เพอร์เมียน,เพอร์เมียน,Permian,medium,04 taxon hybrid,1.0,False
+11433,Ordovician,0.9887201520328783,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,high,03 PBDB nearby,1.0,True
+11434,Cretaceous,0.9917070070279461,ครีเทเชียส,ครีเทเชียส,Cretaceous,high,03 PBDB nearby,1.0,True
+11435,Silurian,0.9931337464627187,ไซลูเรียน,ไซลูเรียน,Silurian,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11436,Cretaceous,0.989835966715927,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby,1.0,True
+11437,Carboniferous,0.85866388816655,คาร์บอนิเฟอรัส,คาร์บอนิเฟอรัส,Carboniferous,medium,04 taxon hybrid,1.0,False
+11438,Cambrian,0.9968807826332416,แคมเบรียน,แคมเบรียนถึงออร์โดวิเชียน,Cambrian,medium,03 PBDB nearby,1.0,True
+11439,Cambrian,0.9945290740005343,แคมเบรียน,แคมเบรียนถึงออร์โดวิเชียน,Cambrian,medium,03 PBDB nearby,1.0,True
+11440,Ordovician,0.8486936371974101,ออร์โดวิเชียน,,,,missing,,False
+11441,Permian,0.9928499086108509,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11442,Permian,0.6926133415336869,เพอร์เมียน,,,,missing,,False
+11443,Permian,0.9222263523274686,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11444,Carboniferous,0.9286008877320506,คาร์บอนิเฟอรัส,คาร์บอนิเฟอรัส,Carboniferous,medium,03 PBDB nearby,1.0,True
+11446,Devonian,0.9934766897745378,ดีโวเนียน,ดีโวเนียน,Devonian,high,03 PBDB nearby,1.0,True
+11447,Triassic,0.9663802920715421,ไทรแอสซิก,จูแรสซิกถึงครีเทเชียส,Jurassic,low,03 PBDB nearby,0.0,False
+11448,Permian,0.9973890923356538,เพอร์เมียน,,,,missing,,False
+11449,Permian,0.9948006178848301,เพอร์เมียน,จูแรสซิก,Jurassic,medium,04 taxon hybrid,0.0,False
+11450,Cretaceous,0.9965716001477185,ครีเทเชียส,,,,missing,,False
+11451,Ordovician,0.5432768359463357,ออร์โดวิเชียน,,,,missing,,False
+11452,Ordovician,0.9844117031574411,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,high,03 PBDB nearby,1.0,True
+11453,Cretaceous,0.9973068882532078,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby,1.0,True
+11454,Cretaceous,0.9978377213752615,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11455,Permian,0.2634314410322065,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11456,Triassic,0.7530584522700411,ไทรแอสซิก,,,,missing,,False
+11457,Permian,0.8372865258111811,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby,1.0,True
+11458,Tertiary,0.40916048894379226,เทอร์เชียรี,จูแรสซิก,Jurassic,low,03 PBDB nearby,0.0,False
+11459,Cretaceous,0.9976516588145101,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11460,Permian,0.5585951939161572,เพอร์เมียน,,,,missing,,False
+11461,Ordovician,0.7764253943364413,ออร์โดวิเชียน,,,,missing,,False
+11463,Ordovician,0.9913828103217042,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,medium,03 PBDB nearby,1.0,True
+11464,Permian,0.883978025497606,เพอร์เมียน,,,,missing,,False
+11465,Permian,0.7852309393577674,เพอร์เมียน,ไทรแอสซิก,Triassic,low,03 PBDB nearby,0.0,False
+11466,Permian,0.9954989724042286,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby,1.0,True
+11467,Permian,0.9905407079861765,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11468,Ordovician,0.9827252802605243,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,high,03 PBDB nearby,1.0,True
+11470,Cretaceous,0.9946959486292118,ครีเทเชียส,,,,missing,,False
+11479,Jurassic,0.7851542903139895,จูแรสซิก,,,,missing,,False
+11481,Permian,0.8358176908518885,เพอร์เมียน,,,,missing,,False
+11483,Permian,0.9896319755238908,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11484,Permian,0.9882687388369743,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11485,Triassic,0.8844794397792323,ไทรแอสซิก,ไทรแอสซิก,Triassic,medium,04 taxon hybrid,1.0,False
+11486,Permian,0.9385212175264749,เพอร์เมียน,,,,missing,,False
+11488,Permian,0.9943520724772948,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11489,Permian,0.9872113640053355,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11491,Permian,0.9851600592911566,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11492,Permian,0.9893734810788956,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11493,Devonian,0.9756384328574582,ดีโวเนียน,ดีโวเนียน,Devonian,medium,03 PBDB taxon + 04 taxon hybrid,1.0,True
+11494,Permian,0.9854998264214768,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11495,Ordovician,0.9863353437695054,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11496,Carboniferous,0.6043568284855851,คาร์บอนิเฟอรัส,,,,missing,,False
+11497,Cretaceous,0.9549257539243534,ครีเทเชียส,,,,missing,,False
+11499,Permian,0.9465450263634748,เพอร์เมียน,,,,missing,,False
+11500,Permian,0.966602079219895,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11501,Triassic,0.44649369858438837,ไทรแอสซิก,,,,missing,,False
+11502,Permian,0.9631568663682025,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11503,Ordovician,0.9130735778915643,ออร์โดวิเชียน,,,,missing,,False
+11513,Triassic,0.9150448706740827,ไทรแอสซิก,,,,missing,,False
+11516,Cambrian,0.9887690559555634,แคมเบรียน,แคมเบรียนถึงออร์โดวิเชียน,Cambrian,high,03 PBDB nearby,1.0,True
+11517,Carboniferous,0.45463671118747356,คาร์บอนิเฟอรัส,,,,missing,,False
+11518,Devonian,0.9957573375901874,ดีโวเนียน,ดีโวเนียน,Devonian,low,03 PBDB nearby,1.0,False
+11519,Permian,0.9647414996029726,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11521,Permian,0.9772110568395522,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11522,Jurassic,0.5944607611785703,จูแรสซิก,เพอร์เมียน,Permian,low,03 PBDB nearby,0.0,False
+11523,Permian,0.47765519736131334,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11524,Permian,0.970097911454761,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby,1.0,True
+11526,Permian,0.5306060965251318,เพอร์เมียน,,,,missing,,False
+11527,Permian,0.7538841921594421,เพอร์เมียน,,,,missing,,False
+11528,Triassic,0.9329849931997898,ไทรแอสซิก,ไทรแอสซิก,Triassic,low,04 taxon hybrid,1.0,False
+11529,Permian,0.8880163870008849,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11530,Devonian,0.8356708410578312,ดีโวเนียน,ดีโวเนียน,Devonian,low,03 PBDB nearby,1.0,False
+11531,Ordovician,0.8774995393586648,ออร์โดวิเชียน,,,,missing,,False
+11532,Carboniferous,0.976095500856474,คาร์บอนิเฟอรัส,คาร์บอนิเฟอรัส,Carboniferous,medium,03 PBDB taxon + 04 taxon hybrid,1.0,True
+11533,Cretaceous,0.9980254338328263,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11534,Permian,0.9957745189814774,เพอร์เมียน,,,,missing,,False
+11535,Jurassic,0.9887459638462657,จูแรสซิก,จูแรสซิก,Jurassic,medium,03 PBDB nearby,1.0,True
+11536,Jurassic,0.8189720762408417,จูแรสซิก,จูแรสซิก,Jurassic,low,03 PBDB nearby,1.0,False
+11541,Cretaceous,0.9024288392597399,ครีเทเชียส,,,,missing,,False
+11543,Quaternary,0.9938278909158502,ควอเทอร์นารี,,,,missing,,False
+11563,Permian,0.54714265697662,เพอร์เมียน,,,,missing,,False
+11564,Ordovician,0.8728756526949963,ออร์โดวิเชียน,,,,missing,,False
+11565,Permian,0.20417435094017125,เพอร์เมียน,,,,missing,,False
+11566,Ordovician,0.8574786783427117,ออร์โดวิเชียน,เพอร์เมียน,Permian,medium,04 taxon hybrid,0.0,False
+11567,Permian,0.9860349629625347,เพอร์เมียน,,,,missing,,False
+11568,Jurassic,0.9910621798061182,จูแรสซิก,จูแรสซิก,Jurassic,medium,03 PBDB nearby,1.0,True
+11569,Jurassic,0.9954456482669908,จูแรสซิก,จูแรสซิก,Jurassic,medium,03 PBDB nearby,1.0,True
+11570,Cretaceous,0.9973944346654523,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby,1.0,True
+11571,Permian,0.9948915291225323,เพอร์เมียน,เพอร์เมียน,Permian,high,03 PBDB nearby,1.0,True
+11572,Ordovician,0.8711978239602808,ออร์โดวิเชียน,เพอร์เมียน,Permian,medium,04 taxon hybrid,0.0,False
+11573,Cretaceous,0.4123744118217921,ครีเทเชียส,,,,missing,,False
+11574,Jurassic,0.9837038724877287,จูแรสซิก,จูแรสซิก,Jurassic,low,03 PBDB nearby,1.0,False
+11575,Permian,0.9676663373843928,เพอร์เมียน,,,,missing,,False
+11576,Triassic,0.3860487246714016,ไทรแอสซิก,เพอร์เมียน,Permian,low,03 PBDB nearby,0.0,False
+11577,Cretaceous,0.9979086556755526,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11578,Ordovician,0.7971163167052782,ออร์โดวิเชียน,,,,missing,,False
+11579,Permian,0.8858931059244265,เพอร์เมียน,,,,missing,,False
+11580,Cretaceous,0.9973944346654523,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11581,Ordovician,0.7363396294049335,ออร์โดวิเชียน,,,,missing,,False
+11582,Ordovician,0.6900052094831378,ออร์โดวิเชียน,,,,missing,,False
+11583,Cretaceous,0.996798103557869,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11584,Permian,0.9978239935490029,เพอร์เมียน,,,,missing,,False
+11585,Triassic,0.960187033273083,ไทรแอสซิก,ไทรแอสซิก,Triassic,low,03 PBDB nearby,1.0,False
+11586,Carboniferous,0.8384640864767725,คาร์บอนิเฟอรัส,คาร์บอนิเฟอรัส,Carboniferous,medium,04 taxon hybrid,1.0,False
+11587,Cretaceous,0.9979108157030904,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11589,Jurassic,0.9554375660325806,จูแรสซิก,,,,missing,,False
+11590,Cretaceous,0.9886621207668218,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11591,Permian,0.5184741870541432,เพอร์เมียน,เพอร์เมียน,Permian,low,04 taxon hybrid,1.0,False
+11592,Permian,0.9701523019204904,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11593,Permian,0.9132833566372605,เพอร์เมียน,,,,missing,,False
+11594,Permian,0.9252745811188394,เพอร์เมียน,เพอร์เมียน,Permian,low,04 taxon hybrid,1.0,False
+11595,Triassic,0.9955036724700904,ไทรแอสซิก,ไทรแอสซิก,Triassic,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11596,Permian,0.7439430913379624,เพอร์เมียน,คาร์บอนิเฟอรัส,Carboniferous,low,03 PBDB nearby,0.0,False
+11597,Permian,0.9756860700996673,เพอร์เมียน,,,,missing,,False
+11598,Ordovician,0.5004979031678736,ออร์โดวิเชียน,,,,missing,,False
+11599,Permian,0.9249975471231745,เพอร์เมียน,,,,missing,,False
+11600,Cretaceous,0.9979790088989623,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11601,Permian,0.9811375347704809,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB taxon + 04 taxon hybrid,1.0,True
+11602,Permian,0.453719337692376,เพอร์เมียน,,,,missing,,False
+11603,Permian,0.7525344221643725,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11604,Permian,0.9589933894991927,เพอร์เมียน,เพอร์เมียน,Permian,low,03 PBDB nearby,1.0,False
+11605,Cretaceous,0.9974325327967947,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11606,Ordovician,0.7003682671031701,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,low,04 taxon hybrid,1.0,False
+11607,Cretaceous,0.9974176113557225,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11608,Cretaceous,0.9963458136098002,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11609,Cretaceous,0.9967826189796692,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11610,Cretaceous,0.9555026016117526,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11611,Cretaceous,0.9720723373649366,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby,1.0,True
+11612,Jurassic,0.9729036197175603,จูแรสซิก,จูแรสซิก,Jurassic,medium,04 taxon hybrid,1.0,False
+11613,Triassic,0.9186790273274069,ไทรแอสซิก,,,,missing,,False
+11614,Cretaceous,0.9831175757940744,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11617,Cretaceous,0.9971120242494869,ครีเทเชียส,ครีเทเชียส,Cretaceous,high,03 PBDB nearby,1.0,True
+11619,Permian,0.9960328426160892,เพอร์เมียน,,,,missing,,False
+11620,Cretaceous,0.9965597119079698,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11621,Quaternary,0.9954014260282984,ควอเทอร์นารี,,,,missing,,False
+11622,Triassic,0.9944332000932963,ไทรแอสซิก,ไทรแอสซิก,Triassic,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11623,Permian,0.9943856089813542,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11624,Cretaceous,0.9976962845532091,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11625,Cretaceous,0.9973068882532078,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby,1.0,True
+11626,Ordovician,0.6800426029825127,ออร์โดวิเชียน,เพอร์เมียน,Permian,low,04 taxon hybrid,0.0,False
+11627,Cretaceous,0.9863095149927128,ครีเทเชียส,ครีเทเชียส,Cretaceous,high,03 PBDB nearby,1.0,True
+11628,Permian,0.997536788335039,เพอร์เมียน,,,,missing,,False
+11630,Ordovician,0.7322073714425925,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,low,03 PBDB nearby,1.0,False
+11632,Permian,0.4747685410567344,เพอร์เมียน,,,,missing,,False
+11633,Triassic,0.9832874274184236,ไทรแอสซิก,ไทรแอสซิก,Triassic,medium,03 PBDB nearby,1.0,True
+11637,Triassic,0.9482616645587948,ไทรแอสซิก,จูแรสซิกถึงครีเทเชียส,Jurassic,low,03 PBDB nearby,0.0,False
+11639,Triassic,0.9466824244524041,ไทรแอสซิก,ไทรแอสซิก,Triassic,low,03 PBDB nearby,1.0,False
+11640,Cretaceous,0.9946346131027716,ครีเทเชียส,,,,missing,,False
+11641,Triassic,0.537972424160617,ไทรแอสซิก,เทอร์เชียรี,Tertiary,low,03 PBDB nearby,0.0,False
+11642,Permian,0.9887870316970907,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11643,Ordovician,0.989618984736394,ออร์โดวิเชียน,ออร์โดวิเชียน,Ordovician,medium,03 PBDB nearby,1.0,True
+11644,Carboniferous,0.9594982954104577,คาร์บอนิเฟอรัส,คาร์บอนิเฟอรัส,Carboniferous,high,03 PBDB nearby,1.0,True
+11645,Ordovician,0.9878480233726922,ออร์โดวิเชียน,ออร์โดวิเชียนถึงไซลูเรียน,Ordovician,medium,03 PBDB nearby,1.0,True
+11647,Permian,0.9979428525934182,เพอร์เมียน,เพอร์เมียน,Permian,medium,03 PBDB nearby,1.0,True
+11648,Permian,0.9202690532345712,เพอร์เมียน,,,,missing,,False
+11651,Permian,0.6231693991997346,เพอร์เมียน,,,,missing,,False
+11652,Devonian,0.6229377178642574,ดีโวเนียน,,,,missing,,False
+11653,Permian,0.7664701740470036,เพอร์เมียน,,,,missing,,False
+11654,Ordovician,0.5813169941931841,ออร์โดวิเชียน,,,,missing,,False
+11655,Cretaceous,0.9979130085541378,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11656,Cretaceous,0.9978098278325829,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11657,Cretaceous,0.9979144018849064,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11658,Cretaceous,0.9979290155278551,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11659,Cretaceous,0.9980168761470387,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11660,Cretaceous,0.9979290155278551,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 03 PBDB taxon + 04 taxon hybrid,1.0,True
+11661,Tertiary,0.9946085735211261,เทอร์เชียรี,เทอร์เชียรี,Tertiary,high,03 PBDB nearby,1.0,True
+11662,Cretaceous,0.9974368147759767,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11663,Permian,0.9544660514242256,เพอร์เมียน,,,,missing,,False
+11664,Permian,0.9692422007911129,เพอร์เมียน,,,,missing,,False
+11665,Cretaceous,0.9860741823474719,ครีเทเชียส,ครีเทเชียส,Cretaceous,low,03 PBDB nearby,1.0,False
+11666,Carboniferous,0.6808944716569836,คาร์บอนิเฟอรัส,,,,missing,,False
+11667,Permian,0.9841305447426867,เพอร์เมียน,,,,missing,,False
+11670,Cretaceous,0.9925725926761965,ครีเทเชียส,ครีเทเชียส,Cretaceous,medium,03 PBDB nearby + 04 taxon hybrid,1.0,True
+11685,Permian,0.9927230036773901,เพอร์เมียน,,,,missing,,False

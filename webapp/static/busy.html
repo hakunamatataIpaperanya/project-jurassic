@@ -1,0 +1,168 @@
+<!doctype html>
+<!-- หน้าขอโทษเมื่อมีผู้ใช้งานพร้อมกันมากเกินไป (server.py ส่งหน้านี้พร้อมสถานะ 503; ดูตัวอย่างได้ที่ /busy)
+     ไฟล์เดียวจบ ไม่โหลดอะไรจากภายนอก (ฟอนต์ / รูป / สคริปต์อยู่ในไฟล์) เพื่อให้แสดงได้แม้เซิร์ฟเวอร์ยุ่ง
+     ภาษาและโหมดมืด / สว่างตามที่ผู้ใช้เลือกไว้ในเว็บหลัก (localStorage: pj-lang, pj-theme) แล้วลองโหลดใหม่เองตามเวลานับถอยหลัง -->
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Project Jurassic · ขอโทษนะ คนเยอะนิดหนึ่ง</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Cg transform=%22rotate(45 8 8)%22%3E%3Crect x=%222.6%22 y=%222.6%22 width=%2210.8%22 height=%2210.8%22 fill=%22none%22 stroke=%22%23e0782f%22 stroke-width=%221.8%22/%3E%3Crect x=%225.2%22 y=%225.2%22 width=%225.6%22 height=%225.6%22 fill=%22%23e0782f%22/%3E%3C/g%3E%3C/svg%3E">
+<script>
+  // ใส่ธีมก่อนหน้าแสดง (ไม่กะพริบ)
+  try { document.documentElement.dataset.theme = localStorage.getItem("pj-theme") === "light" ? "light" : "dark"; } catch (e) { document.documentElement.dataset.theme = "dark"; }
+</script>
+<style>
+  :root {
+    --bg: #0b0c29; --bg2: #141440; --ink: #f4eee3; --muted: #aaa6c4; --accent: #f29a3f; --accent-ink: #1d0e02;
+    --card: rgba(18, 20, 58, 0.72); --line: rgba(220, 214, 255, 0.16);
+    --rex: #e8e4d8; --cloud: rgba(232, 228, 216, 0.35); --hill: #1f1a52; --hill2: #16154a; --star: rgba(255, 246, 220, 0.85);
+    color-scheme: dark;
+  }
+  :root[data-theme="light"] {
+    --bg: #eef0ea; --bg2: #e7ebe1; --ink: #2a251f; --muted: #5d554a; --accent: #c4581c; --accent-ink: #fff6ec;
+    --card: rgba(255, 255, 250, 0.78); --line: rgba(60, 48, 36, 0.16);
+    --rex: #535353; --cloud: #c9c9c9; --hill: #6a984f; --hill2: #b5cb8a; --star: transparent;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    min-height: 100vh; display: grid; place-items: center; padding: 24px 16px 140px; overflow-x: hidden;
+    font-family: "IBM Plex Sans Thai", "Kanit", "Sukhumvit Set", "Thonburi", "Leelawadee UI", "Noto Sans Thai", system-ui, sans-serif;
+    color: var(--ink); background: var(--bg); position: relative; line-height: 1.6;
+    background-image:
+      radial-gradient(1.4px 1.4px at 23px 41px, var(--star), transparent 2px),
+      radial-gradient(1.2px 1.2px at 151px 97px, var(--star), transparent 2px),
+      radial-gradient(1px 1px at 263px 29px, var(--star), transparent 2px),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+    background-size: 290px 230px, 410px 300px, 370px 240px, auto;
+  }
+  :root[data-theme="light"] body {
+    background-image: radial-gradient(circle at 50% 4%, rgba(255, 170, 80, 0.55) 0, rgba(245, 160, 90, 0.16) 14%, transparent 26%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+    background-size: auto; background-repeat: no-repeat; background-attachment: fixed;
+  }
+  /* เนินเขาด้านล่าง */
+  .hills { position: fixed; left: 0; right: 0; bottom: 0; height: 120px; pointer-events: none; }
+  .hills svg { width: 100%; height: 100%; display: block; }
+  .card {
+    position: relative; z-index: 1; width: min(560px, 100%); text-align: center; padding: 30px 28px 26px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 22px; backdrop-filter: blur(6px);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+  }
+  /* ฉาก 8 บิต: 1 พิกเซลของภาพ = 4 px จอ (คมชัด); ทีเร็กซ์วิ่งอยู่กับที่ กระบองเพชรเลื่อนเข้ามา แล้วทีเร็กซ์กระโดดข้ามพอดี (รอบละ 3.2 วินาที) */
+  .scene { position: relative; width: 300px; max-width: 100%; height: 148px; margin: 0 auto 12px; overflow: hidden; fill: var(--rex); }
+  .rex-jump { position: absolute; left: 34px; bottom: 6px; animation: jump 3.2s infinite; }
+  .rex { display: block; width: 88px; height: 84px; }
+  .rex .blink { opacity: 0; animation: blink 4s steps(1) infinite; }
+  .leg-a { animation: run 0.3s steps(1) infinite; }
+  .leg-b { animation: run 0.3s steps(1) -0.15s infinite; }
+  .leg-stand { display: none; }
+  .cactus { position: absolute; bottom: 6px; left: 0; width: 24px; height: 40px; animation: cactus 3.2s linear infinite; }
+  .cloud { position: absolute; width: 60px; height: 20px; fill: var(--cloud); }
+  .cloud.c1 { top: 10px; animation: drift 14s linear infinite; }
+  .cloud.c2 { top: 34px; width: 44px; height: 15px; animation: drift 20s linear -9s infinite; }
+  .ground { position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; background: var(--rex); }
+  .pebbles { position: absolute; left: 0; right: 0; bottom: 1px; height: 2px; opacity: 0.7; animation: pebbles 0.64s linear infinite;
+    background: repeating-linear-gradient(90deg, transparent 0 6px, var(--rex) 6px 14px, transparent 14px 30px, var(--rex) 30px 34px,
+      transparent 34px 48px, var(--rex) 48px 54px, transparent 54px 66px); }
+  @keyframes run { 0% { opacity: 1; } 50% { opacity: 0; } }
+  @keyframes blink { 0%, 100% { opacity: 0; } 92% { opacity: 1; } 95% { opacity: 0; } }
+  @keyframes cactus { from { transform: translateX(300px); } to { transform: translateX(-30px); } }
+  /* กระบองเพชรผ่านเท้าช่วง 67–83% ของรอบ และผ่านหางถึงราว 89%: กระโดดที่ 56% สูงสุดที่ 76% ลงพื้นที่ 94% */
+  @keyframes jump { 0%, 56% { transform: translateY(0); animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1); }
+    76% { transform: translateY(-52px); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3); } 94%, 100% { transform: translateY(0); } }
+  @keyframes drift { from { transform: translateX(310px); } to { transform: translateX(-70px); } }
+  @keyframes pebbles { to { background-position: -66px 0; } }
+  .kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin: 0; }
+  h1 { font-family: "Kanit", "IBM Plex Sans Thai", "Sukhumvit Set", "Thonburi", sans-serif; font-weight: 700; font-size: clamp(24px, 5vw, 30px); line-height: 1.25; margin: 6px 0 10px; }
+  p { margin: 0 0 10px; color: var(--muted); font-size: 15.5px; }
+  .count { display: inline-flex; align-items: center; gap: 10px; margin: 8px 0 18px; font-size: 14px; color: var(--muted); }
+  .ring { width: 34px; height: 34px; position: relative; }
+  .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 13px; color: var(--ink); }
+  .ring .track { stroke: var(--line); } .ring .bar { stroke: var(--accent); transition: stroke-dashoffset 1s linear; }
+  .actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  button, .ghost {
+    font: inherit; font-weight: 600; font-size: 15px; border-radius: 999px; padding: 10px 22px; cursor: pointer; text-decoration: none;
+    border: 1px solid transparent; transition: transform 0.15s, box-shadow 0.15s;
+  }
+  button { background: var(--accent); color: var(--accent-ink); box-shadow: 0 6px 18px rgba(242, 154, 63, 0.3); }
+  button:hover, .ghost:hover { transform: translateY(-1px); }
+  .ghost { color: var(--ink); border-color: var(--line); background: transparent; }
+  .thanks { margin-top: 18px; font-size: 13px; color: var(--muted); }
+  .lang { position: fixed; top: 14px; right: 14px; z-index: 2; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; padding: 7px 12px; }
+  @media (prefers-reduced-motion: reduce) { .scene * { animation: none !important; } .leg-a, .leg-b { display: none; } .leg-stand { display: inline; }
+    .cactus { transform: translateX(220px); } .cloud.c1 { transform: translateX(180px); } .cloud.c2 { transform: translateX(40px); } .ring .bar { transition: none; } }
+</style>
+</head>
+<body>
+<button class="ghost lang" id="lang" type="button">EN</button>
+
+<main class="card" role="alert" aria-live="polite">
+  <!-- ทีเร็กซ์พิกเซล (วาดเอง สไตล์เกม 8 บิต) วิ่งแล้วกระโดดข้ามกระบองเพชร ใต้เมฆที่ลอยผ่าน -->
+  <div class="scene" aria-hidden="true"><svg class="cloud c1" viewBox="0 0 15 5" shape-rendering="crispEdges"><path d="M5 0h4v1h-4zM3 1h2v1h-2zM9 1h2v1h-2zM2 2h1v1h-1zM11 2h3v1h-3zM1 3h1v1h-1zM14 3h1v1h-1zM0 4h15v1h-15z"/></svg><svg class="cloud c2" viewBox="0 0 15 5" shape-rendering="crispEdges"><path d="M5 0h4v1h-4zM3 1h2v1h-2zM9 1h2v1h-2zM2 2h1v1h-1zM11 2h3v1h-3zM1 3h1v1h-1zM14 3h1v1h-1zM0 4h15v1h-15z"/></svg><div class="rex-jump"><svg class="rex" viewBox="0 0 22 21" shape-rendering="crispEdges" aria-hidden="true"><path d="M12 0h8v1h-8zM11 1h2v1h-2zM14 1h7v1h-7zM11 2h10v1h-10zM11 3h10v1h-10zM11 4h10v1h-10zM11 5h5v1h-5zM11 6h8v1h-8zM0 7h1v1h-1zM10 7h5v1h-5zM0 8h1v1h-1zM9 8h6v1h-6zM0 9h2v1h-2zM8 9h7v1h-7zM0 10h3v1h-3zM7 10h10v1h-10zM0 11h4v1h-4zM6 11h9v1h-9zM16 11h1v1h-1zM0 12h14v1h-14zM1 13h13v1h-13zM2 14h11v1h-11zM3 15h9v1h-9zM4 16h7v1h-7z"/><rect class="blink" x="13" y="1" width="1" height="1"/><path class="leg leg-a" d="M4 17h3v1h-3zM9 17h4v1h-4zM4 18h2v1h-2zM4 19h1v1h-1zM4 20h2v1h-2z"/><path class="leg leg-b" d="M4 17h4v1h-4zM9 17h2v1h-2zM10 18h1v1h-1zM10 19h1v1h-1zM10 20h2v1h-2z"/><path class="leg leg-stand" d="M4 17h3v1h-3zM9 17h2v1h-2zM4 18h2v1h-2zM10 18h1v1h-1zM4 19h1v1h-1zM10 19h1v1h-1zM4 20h2v1h-2zM10 20h2v1h-2z"/></svg></div><svg class="cactus" viewBox="0 0 6 10" shape-rendering="crispEdges"><path d="M2 0h2v1h-2zM2 1h2v1h-2zM0 2h1v1h-1zM2 2h2v1h-2zM0 3h1v1h-1zM2 3h2v1h-2zM5 3h1v1h-1zM0 4h1v1h-1zM2 4h2v1h-2zM5 4h1v1h-1zM0 5h4v1h-4zM5 5h1v1h-1zM2 6h4v1h-4zM2 7h2v1h-2zM2 8h2v1h-2zM2 9h2v1h-2z"/></svg><div class="ground"></div><div class="pebbles"></div></div>
+
+  <p class="kicker" id="kicker">PROJECT JURASSIC · 503</p>
+  <h1 id="title">ขอโทษนะ ตอนนี้คนแวะมาเยอะมากเลย</h1>
+  <p id="body2">รบกวนรอสักครู่ แล้วระบบจะลองเปิดหน้าให้ใหม่เองนะคะ</p>
+  <div class="count">
+    <span class="ring"><svg viewBox="0 0 36 36"><circle class="track" cx="18" cy="18" r="15" fill="none" stroke-width="3"/>
+      <circle class="bar" id="bar" cx="18" cy="18" r="15" fill="none" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.25" stroke-dashoffset="0"/></svg><b id="sec">20</b></span>
+    <span id="countText">จะลองใหม่ให้อัตโนมัติ</span>
+  </div>
+  <div class="actions">
+    <button type="button" id="retry">ลองใหม่ตอนนี้</button>
+  </div>
+  <p class="thanks" id="thanks">ขอบคุณที่ใจเย็นและแวะมาสำรวจซากดึกดำบรรพ์ไทยด้วยกันนะคะ</p>
+</main>
+
+<div class="hills" aria-hidden="true">
+  <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+    <path d="M0 70 C200 30 360 30 520 62 C700 96 860 40 1000 46 C1100 50 1160 64 1200 70 L1200 120 L0 120 Z" fill="var(--hill2)"/>
+    <path d="M0 96 C180 70 320 80 460 98 C640 120 820 76 1000 84 C1100 88 1160 96 1200 100 L1200 120 L0 120 Z" fill="var(--hill)"/>
+  </svg>
+</div>
+
+<script>
+  const TEXT = {
+    th: { title: "ขอโทษนะ ตอนนี้คนแวะมาเยอะมากเลย",
+          body2: "รบกวนรอสักครู่ แล้วระบบจะลองเปิดหน้าให้ใหม่เองนะคะ", count: "จะลองใหม่ให้อัตโนมัติ", retry: "ลองใหม่ตอนนี้",
+          thanks: "ขอบคุณที่ใจเย็นและแวะมาสำรวจซากดึกดำบรรพ์ไทยด้วยกันนะคะ", lang: "EN", doc: "Project Jurassic · ขอโทษนะ คนเยอะนิดหนึ่ง" },
+    en: { title: "Sorry! It's a little crowded right now",
+          body2: "Please hang on a moment. We'll try opening the page again for you.", count: "Retrying automatically", retry: "Try again now",
+          thanks: "Thank you for your patience, and for exploring Thailand's fossils with us.", lang: "ไทย", doc: "Project Jurassic · Sorry, a little crowded" },
+  };
+  let lang = "th";
+  try { lang = localStorage.getItem("pj-lang") === "en" ? "en" : "th"; } catch (e) { /* ใช้ภาษาไทย */ }
+  const $ = (id) => document.getElementById(id);
+  function apply() {
+    const t = TEXT[lang];
+    document.documentElement.lang = lang;
+    document.title = t.doc;
+    ["title", "body2", "thanks"].forEach((k) => { $(k).textContent = t[k]; });
+    $("countText").textContent = t.count; $("retry").textContent = t.retry; $("lang").textContent = t.lang;
+  }
+  $("lang").addEventListener("click", () => { lang = lang === "th" ? "en" : "th"; try { localStorage.setItem("pj-lang", lang); } catch (e) {} apply(); });
+  apply();
+
+  // นับถอยหลังแล้วเปิดหน้าเดิมใหม่ (ถ้าเปิดจาก /busy ให้ไปหน้าแรก); รอนานขึ้นทีละรอบถ้ายังยุ่ง (20 -> 30 -> 45 วินาที)
+  const tries = Number(sessionStorage.getItem("pj-busy-tries") || 0);
+  const WAIT = [20, 30, 45][Math.min(tries, 2)];
+  const target = location.pathname === "/busy" ? "/" + location.hash : location.href;
+  const go = () => { try { sessionStorage.setItem("pj-busy-tries", String(tries + 1)); } catch (e) {} location.replace(target); };
+  $("retry").addEventListener("click", go);
+  let left = WAIT;
+  const tick = () => {
+    $("sec").textContent = left;
+    $("bar").style.strokeDashoffset = String(94.25 * (1 - left / WAIT));
+    if (left <= 0) return go();
+    left -= 1;
+    setTimeout(tick, 1000);
+  };
+  if (location.pathname !== "/busy") tick(); else { $("sec").textContent = WAIT; }
+</script>
+</body>
+</html>

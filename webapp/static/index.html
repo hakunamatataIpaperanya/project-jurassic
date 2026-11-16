@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Jurassic · แผนที่ซากดึกดำบรรพ์ประเทศไทย</title>
+  <meta name="description" content="ดูว่าพื้นที่ไหนในประเทศไทยน่าจะพบซากดึกดำบรรพ์ และซากที่พบน่าจะเป็นอะไร ด้วยโมเดลที่เรียนรู้จากแหล่งซากที่ขึ้นทะเบียน ภาพถ่ายดาวเทียม และแผนที่ธรณีวิทยา">
+  <!-- ภาพตัวอย่างลิงก์เมื่อแชร์ (Open Graph) = ภาพหน้าแรก (scripts/make_og_image.py); build_static_site.py เปลี่ยน /static/... เป็น URL เต็มของเว็บ -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Project Jurassic">
+  <meta property="og:locale" content="th_TH">
+  <meta property="og:title" content="Project Jurassic · แผนที่ซากดึกดำบรรพ์ประเทศไทย">
+  <meta property="og:description" content="ดูว่าพื้นที่ไหนในประเทศไทยน่าจะพบซากดึกดำบรรพ์ และซากที่พบน่าจะเป็นอะไร">
+  <meta property="og:image" content="/static/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="หน้าแรกของ Project Jurassic แผนที่ซากดึกดำบรรพ์ประเทศไทย">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Cg transform=%22rotate(45 8 8)%22%3E%3Crect x=%222.6%22 y=%222.6%22 width=%2210.8%22 height=%2210.8%22 fill=%22none%22 stroke=%22%23e0782f%22 stroke-width=%221.8%22/%3E%3Crect x=%225.2%22 y=%225.2%22 width=%225.6%22 height=%225.6%22 fill=%22%23e0782f%22/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Kanit:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+  <link href="/static/style.css" rel="stylesheet">
+  <script src="/static/i18n.js"></script>
+</head>
+<body data-screen="index">
+<!-- #night: แผงภาพหน้า MORE ในโหมดมืด (พื้นดำ -> กรมท่า);
+     #mono: โฮโลแกรมในโหมดสว่าง = หมึกตามความสว่างของภาพเดิม + แสงฟุ้งจาง ๆ, ส่วนที่เน้นสีอำพันใช้สีเน้น;
+     #tri: ภาพพื้นหลังแผง "แหล่งข้อมูล" ในโหมดสว่าง แยก 3 กลุ่มสี: ฟ้า -> หมึกโฮโลแกรม, อำพัน -> สีเน้น, ขาว / เทา -> หมึกเข้ม (จุดแหล่ง ทธ. ไม่กลืนกับจุด PBDB);
+     สีทั้งหมดมาจากตัวแปร CSS --holo-ink / --holo-glow / --holo-hi / --ink (style.css) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="night" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="1.0113 -0.0624 0.0258 0 0.0243  0.0075 0.9584 0.0172 0 0.0162  0.0582 -0.3225 1.1336 0 0.1253  0 0 0 1 0"/></filter><filter id="mono" color-interpolation-filters="sRGB" x="-2%" y="-2%" width="104%" height="104%"><feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum"/><feComposite in="lum" in2="SourceAlpha" operator="arithmetic" k1="1" result="lumA"/><feComponentTransfer in="lumA" result="mask"><feFuncA type="gamma" amplitude="1.6" exponent="0.8"/></feComponentTransfer><feFlood class="hf-ink" flood-color="#5b3c9e" result="ink"/><feComposite in="ink" in2="mask" operator="in" result="core"/><feFlood class="hf-glow" flood-color="#9678dc" flood-opacity="0.45" result="glowCol"/><feComposite in="glowCol" in2="mask" operator="in" result="glowSrc"/><feGaussianBlur in="glowSrc" stdDeviation="2.5" result="glow"/><feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.8 0 -1.8 0 0" result="warmRaw"/><feComposite in="warmRaw" in2="SourceAlpha" operator="arithmetic" k1="1" result="warmA"/><feFlood class="hf-hi" flood-color="#c9651c" result="amber"/><feComposite in="amber" in2="warmA" operator="in" result="warm"/><feMerge><feMergeNode in="glow"/><feMergeNode in="core"/><feMergeNode in="warm"/></feMerge></filter><filter id="tri" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1"><feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum"/><feComposite in="lum" in2="SourceAlpha" operator="arithmetic" k1="1" result="lumA"/><feComponentTransfer in="lumA" result="mask"><feFuncA type="gamma" amplitude="1.6" exponent="0.8"/></feComponentTransfer><feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.8 0 1.8 0 0" result="coolRaw"/><feComposite in="coolRaw" in2="mask" operator="arithmetic" k1="2" result="coolA"/><feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.8 0 -1.8 0 0" result="warmRaw"/><feComposite in="warmRaw" in2="mask" operator="arithmetic" k1="2" result="warmA"/><feComposite in="coolA" in2="warmA" operator="arithmetic" k2="1" k3="1" result="hueA"/><feComposite in="mask" in2="hueA" operator="arithmetic" k2="1" k3="-1" result="neutralA"/><feFlood class="hf-ink" flood-color="#5b3c9e" result="c1"/><feComposite in="c1" in2="coolA" operator="in" result="cool"/><feFlood class="hf-hi" flood-color="#c9651c" result="c2"/><feComposite in="c2" in2="warmA" operator="in" result="warm"/><feFlood class="hf-neutral" flood-color="#2a251f" result="c3"/><feComposite in="c3" in2="neutralA" operator="in" result="neutral"/><feMerge><feMergeNode in="neutral"/><feMergeNode in="cool"/><feMergeNode in="warm"/></feMerge></filter></svg>
+
+<header class="topbar">
+  <a class="wordmark" href="#index" data-go="index">
+    <span class="wm-mark" aria-hidden="true"></span>
+    <span class="wm-text"><b>PROJECT JURASSIC</b><small data-en="Thailand Fossil Atlas">แผนที่ซากดึกดำบรรพ์ประเทศไทย</small></span>
+  </a>
+  <nav class="nav" aria-label="เมนูหลัก" data-en-aria="Main menu">
+    <a href="#index" data-go="index"><b>INDEX</b><small data-en="Home">หน้าแรก</small></a>
+    <a href="#map" data-go="map"><b>MAP</b><small data-en="Fossil map">แผนที่</small></a>
+    <a href="#identify" data-go="identify"><b>IDENTIFY</b><small data-en="What is it?">ทายชื่อซาก</small></a>
+    <a href="#more" data-go="more"><b>MORE</b><small data-en="About &amp; data">เพิ่มเติม</small></a>
+  </nav>
+  <div class="prefs">
+    <button type="button" class="pref" id="theme-btn"></button>   <!-- ข้อความ / aria-label ตั้งโดย prefButtons() ใน app.js -->
+    <button type="button" class="pref" id="lang-btn"></button>
+  </div>
+</header>
+
+<div class="indicator" aria-hidden="true">
+  <span class="ind-num" id="ind-num">00</span>
+  <span class="ind-frac" id="ind-frac">// 00 / 03</span>
+  <span class="ind-name" id="ind-name">HOMEPAGE</span>
+</div>
+
+<!-- ================================================================ แผนที่ (ใช้ร่วมกันใน MAP และ IDENTIFY) -->
+<div class="mapwrap" id="mapwrap">
+  <div id="mapcanvas"></div>
+  <div class="bigword map-word" id="map-word" aria-hidden="true">FOSSIL MAP</div>
+  <div class="maplegend" id="maplegend" hidden></div>
+  <div class="hovertip" id="hovertip" hidden></div>
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div id="loading-text" data-en="Preparing the map and models… (about 20–40 seconds the first time)">กำลังเตรียมแผนที่และโมเดล… (ครั้งแรกราว 20–40 วินาที)</div>
+  </div>
+</div>
+
+<!-- ================================================================ 00 INDEX -->
+<section class="screen" id="s-index">
+  <div class="bigword" aria-hidden="true">DEEP TIME</div>
+  <div class="hero">
+    <div class="hero-text">
+      <div class="kicker">PALEONTOLOGY <span>×</span> GEOSCIENCE <span>//</span> ML PROSPECTIVITY</div>
+      <h1 data-en="Thailand Fossil Atlas">แผนที่ซากดึกดำบรรพ์ประเทศไทย</h1>
+      <div class="hero-en">PROJECT JURASSIC</div>
+      <p data-en="See where in Thailand fossils are likely to be found and what a find probably is, using models trained on registered fossil sites, satellite imagery and geological maps.">ดูว่าพื้นที่ไหนในประเทศไทยน่าจะพบซากดึกดำบรรพ์ และซากที่พบน่าจะเป็นอะไร
+        ด้วยโมเดลที่เรียนรู้จากแหล่งซากที่ขึ้นทะเบียน ภาพถ่ายดาวเทียม และแผนที่ธรณีวิทยา</p>
+      <div class="cta">
+        <button class="btn-primary" data-go="map"><span data-en="<b>Explore the map</b><small>FOSSIL MAP</small>"><b>เริ่มสำรวจแผนที่</b><small>EXPLORE MAP</small></span><i>›</i></button>
+        <button class="btn-outline" data-go="identify"><span data-en="<b>Identify a fossil</b><small>IDENTIFY</small>"><b>ทายชื่อซาก</b><small>IDENTIFY A FOSSIL</small></span><i>›</i></button>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="asof" id="asof"></div>
+    </div>
+    <figure class="hero-scan" id="hero-scan">
+      <!-- hero.js แทนที่ด้วยภาพ 3 มิติ (ซากข้ามยุค + ชั้นหิน + แผนที่); ภาพนี้แสดงเมื่อโหลดข้อมูลไม่ได้ -->
+      <img class="scan-fallback" src="/static/img/hero.png" alt="แผนที่โอกาสพบซากทั่วประเทศไทย" data-en-aria="Fossil potential map of Thailand">
+    </figure>
+  </div>
+</section>
+
+<!-- ================================================================ 01 MAP -->
+<section class="screen panel-screen" id="s-map">
+  <aside class="panel">
+    <div class="p-head">
+      <div class="kicker">FOSSIL MAP <span>//</span> 01</div>
+      <h2 data-en="Where are fossils likely?">พื้นที่ไหนน่าจะพบซาก</h2>
+    </div>
+
+    <div class="intro" id="intro">
+      <ol>
+        <li data-en="Whole country: colours show <b>which provinces are worth exploring</b>. Zoom in to see 5 km cells.">มองทั้งประเทศ: สีบอกว่า<b>จังหวัดไหนน่าสำรวจ</b> ซูมเข้าไปจะเห็นทีละพื้นที่ 5 กม.</li>
+        <li data-en="<b>Hover</b> to see values instantly; <b>click</b> to zoom into a province or analyse that point in detail."><b>ชี้เมาส์</b>เพื่อดูค่าทันที <b>คลิก</b>เพื่อซูมเข้าจังหวัด / วิเคราะห์จุดนั้นละเอียด</li>
+        <li data-en="Results are computer predictions; use them as guidance only.">ผลเป็นการคาดการณ์จากคอมพิวเตอร์ ใช้เป็นแนวทางเท่านั้น</li>
+      </ol>
+      <button class="btn-ghost" id="intro-close" data-en="Got it">เข้าใจแล้ว</button>
+    </div>
+
+    <div class="block">
+      <div class="label" data-en="Try an example">ลองดูตัวอย่าง <em>EXAMPLES</em></div>
+      <div class="chips" id="places"></div>
+      <button class="btn-ghost small" id="locate" data-en="◎ Use my location">◎ ใช้ตำแหน่งของฉัน</button>
+    </div>
+
+    <div class="block">
+      <div class="label" data-en="Show on map <em>LAYER</em>">แสดงบนแผนที่ <em>LAYER</em></div>
+      <div class="seg" id="mode">
+        <button data-mode="potential" class="on" data-en="All fossils">โอกาสพบซากทุกชนิด</button>
+        <button data-mode="type" data-en="One fossil type">เฉพาะชนิด</button>
+      </div>
+      <select id="type-select" aria-label="เลือกชนิดซาก" data-en-aria="Choose a fossil type" hidden></select>
+      <p class="type-note" id="type-note" hidden></p>
+    </div>
+
+    <div class="block">
+      <div class="label" id="rank-title">จังหวัดที่น่าสำรวจที่สุด <em>TOP PROVINCES</em></div>
+      <ol class="ranklist" id="ranklist"></ol>
+      <p class="hint" data-en="Share of each province's area with high potential">วัดจากสัดส่วนพื้นที่ในจังหวัดที่โอกาสสูง</p>
+    </div>
+
+    <div class="block geo-block">
+      <label class="check geo-toggle"><input type="checkbox" id="show-geo"> <span data-en="<b>Rock age</b> · the rock layers in each area"><b>ยุคของหิน</b> · ชั้นหินที่พบในแต่ละพื้นที่ <em>ROCK AGE</em></span></label>
+      <div class="geo-panel" id="geo-panel" hidden>
+        <p class="hint" data-en="Rock units coloured by geological period, from the Department of Mineral Resources 1:250,000 geological map · click a period to show / hide it · hover the map to see the formation name">สีตามยุคของหน่วยหินจากแผนที่ธรณีวิทยา 1:250,000 ของกรมทรัพยากรธรณี · กดยุคเพื่อเปิด / ปิดทีละยุค · ชี้เมาส์บนแผนที่เพื่อดูชื่อหมวดหิน</p>
+        <div class="geo-actions"><button type="button" class="chip" id="geo-all" data-en="Select all">เลือกทั้งหมด</button><button type="button" class="chip" id="geo-none" data-en="Clear">ล้าง</button>
+          <button type="button" class="chip" id="geo-fossil" data-en="Periods with fossil sites">เฉพาะยุคที่มีแหล่งซาก</button></div>
+        <ol class="geo-list" id="geo-list"><li class="muted" data-en="Loading the geological map…">กำลังโหลดแผนที่ธรณี…</li></ol>
+      </div>
+    </div>
+
+    <div class="block">
+      <label class="check"><input type="checkbox" id="show-sites"> <span data-en="Registered fossil sites">แหล่งซากที่ขึ้นทะเบียนแล้ว</span> <span class="dot site"></span></label>
+      <label class="check"><input type="checkbox" id="show-pbdb"> <span data-en="Fossils reported by researchers (PBDB)">จุดที่นักวิจัยเคยรายงานซาก</span> <span class="dot pbdb"></span></label>
+    </div>
+
+    <div class="card" id="result" hidden></div>
+
+    <details class="more">
+      <summary data-en="More settings <em>SETTINGS</em>">ตั้งค่าเพิ่มเติม <em>SETTINGS</em></summary>
+      <div class="more-body">
+        <div class="label" data-en="Background points used to train the model">ชุดจุดเปรียบเทียบที่ใช้ฝึกโมเดล</div>
+        <div class="seg" id="bg">
+          <button data-bg="bg_bias" class="on" data-en="Survey-weighted">ตามการสำรวจ</button>
+          <button data-bg="bg_uniform" data-en="Uniform random">สุ่มทั่วประเทศ</button>
+        </div>
+        <label class="check"><input type="checkbox" id="with-s2" checked> <span data-en="Use Sentinel-2 satellite imagery when analysing a point (results are much less accurate without it)">ใช้ภาพถ่ายดาวเทียม Sentinel-2 ตอนวิเคราะห์จุด (ถ้าปิด ผลคลาดเคลื่อนมาก)</span></label>
+        <label class="check"><input type="checkbox" id="aoa" checked> <span data-en="Show areas with not enough data in grey">แสดงพื้นที่ที่ข้อมูลไม่พอเป็นสีเทา</span></label>
+        <label class="check"><input type="checkbox" id="smooth" checked> <span data-en="Smooth the map for an easier overview">เกลี่ยสีแผนที่ให้เรียบ ดูภาพรวมง่ายขึ้น</span></label>
+      </div>
+    </details>
+  </aside>
+</section>
+
+<!-- ================================================================ 02 IDENTIFY -->
+<section class="screen panel-screen" id="s-identify">
+  <aside class="panel">
+    <div class="p-head">
+      <div class="kicker">IDENTIFY <span>//</span> 02</div>
+      <h2 data-en="What is this fossil?">ซากที่พบคืออะไร</h2>
+      <p class="lead" data-en="Describe your find and the system suggests its 3 most likely names for an expert to confirm.">บอกลักษณะของซากที่พบ ระบบจะเสนอชื่อที่เป็นไปได้ 3 อันดับ เพื่อให้ผู้เชี่ยวชาญตรวจยืนยันต่อ</p>
+    </div>
+    <form id="spec-form" autocomplete="off">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-body">
+          <div class="step-title" data-en="What does it look like? <span class=&quot;req&quot;>*</span>">ซากที่พบหน้าตาเป็นอย่างไร <span class="req">*</span></div>
+          <div id="look-mode">
+            <p class="hint" data-en="Pick the closest picture; you don't need to know what it is.">เลือกภาพที่คล้ายที่สุด ไม่ต้องรู้ว่าเป็นซากของอะไร</p>
+            <div id="look-cards"></div>
+            <div id="look-ask" class="look-ask" hidden>
+              <div class="look-q" id="look-q"></div>
+              <div class="look-opts" id="look-opts"></div>
+            </div>
+            <button type="button" class="link" id="to-type" data-en="Already know what it is? Choose the type ›">รู้อยู่แล้วว่าเป็นซากอะไร? เลือกประเภทเอง ›</button>
+          </div>
+          <div id="type-mode" hidden>
+            <label for="f_type" class="sub" data-en="Fossil type">ประเภทซาก</label>
+            <select id="f_type" name="f_type"><option value="" data-en="— Choose —">— เลือก —</option></select>
+            <label for="f_part" class="sub" data-en="Which part is it?">เป็นส่วนไหนของซาก</label>
+            <div class="chips small" id="part-chips"></div>
+            <input id="f_part" name="f_part" placeholder="หรือพิมพ์เอง เช่น ฟัน, กระดูกสันหลัง, เปลือก" data-en-ph="Or type it, e.g. tooth, vertebra, shell (Thai or English)">
+            <button type="button" class="link" id="to-look" data-en="‹ Not sure? Go back to choosing by appearance">‹ ไม่แน่ใจ กลับไปเลือกจากหน้าตา</button>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-body">
+          <div class="step-title" data-en="Where was it found?">พบที่ไหน</div>
+          <label class="option"><input type="radio" name="loc" value="point" checked>
+            <span><b data-en="A point on the map">จุดบนแผนที่</b><br><span class="muted" id="point-label" data-en="Click the map to choose a point">คลิกแผนที่ทางขวาเพื่อเลือกจุด</span></span></label>
+          <label class="option"><input type="radio" name="loc" value="site">
+            <span><b data-en="A registered fossil site">แหล่งซากที่ขึ้นทะเบียนแล้ว</b>
+              <input list="dl-sites" id="site-input" placeholder="พิมพ์ชื่อแหล่ง เช่น ภูเวียง แล้วเลือกจากรายการ" data-en-ph="Type a site name (in Thai, e.g. ภูเวียง) and pick from the list">
+              <span class="muted" id="site-hint"></span></span></label>
+          <label class="option"><input type="radio" name="loc" value="none"> <span><b data-en="Unknown">ไม่ทราบ</b></span></label>
+        </div>
+      </div>
+      <details class="more">
+        <summary data-en="More information (if known) <em>OPTIONAL</em>">ข้อมูลเพิ่มเติม (ถ้าทราบ) <em>OPTIONAL</em></summary>
+        <div class="more-body">
+          <label><span data-en="Local name of the fossil (Thai)">ชื่อที่เรียกซากนี้</span><input list="dl-com_name" name="com_name" placeholder="เช่น ฟันฉลาม, หอยตะเกียง" data-en-ph="e.g. ฟันฉลาม (shark tooth), หอยตะเกียง (lamp shell)"></label>
+          <div class="grid2">
+            <label><span data-en="Province">จังหวัด</span><input list="dl-province" name="province" placeholder="ระบบหาให้จากจุดที่เลือก" data-en-ph="Found automatically from the chosen point"></label>
+            <label><span data-en="District (Thai)">อำเภอ</span><input list="dl-district" name="district"></label>
+          </div>
+        </div>
+      </details>
+      <button type="submit" class="btn-primary wide"><span data-en="<b>Identify the fossil</b><small>TOP 3 NAMES</small>"><b>ทายชื่อซาก</b><small>IDENTIFY</small></span><i>›</i></button>
+    </form>
+    <div class="card" id="spec-result" hidden></div>
+    <p class="law" data-en="Fossils are protected under Thailand's Fossil Protection Act B.E. 2551 (2008). If you find one, do not dig it up or keep it; report it to the Department of Mineral Resources.">ซากดึกดำบรรพ์ได้รับความคุ้มครองตามพระราชบัญญัติคุ้มครองซากดึกดำบรรพ์ พ.ศ. 2551 หากพบ ไม่ควรขุดหรือเก็บเอง ให้แจ้งกรมทรัพยากรธรณี</p>
+  </aside>
+</section>
+
+<!-- ================================================================ 03 MORE -->
+<section class="screen" id="s-more">
+  <div class="cols" id="more-cols"></div>
+  <div class="bigword more-word" aria-hidden="true">MORE CONTENT</div>
+</section>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close" aria-label="ปิด" data-en-aria="Close">✕</button>
+    <div class="kicker" id="modal-kicker"></div>
+    <h2 id="modal-title"></h2>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<datalist id="dl-com_name"></datalist>
+<datalist id="dl-province"></datalist>
+<datalist id="dl-district"></datalist>
+<datalist id="dl-sites"></datalist>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="/static/local.js"></script>
+<script src="/static/holo.js"></script>
+<script src="/static/hero.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

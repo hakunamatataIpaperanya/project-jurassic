@@ -1,0 +1,39 @@
+# Project Jurassic — สิ่งที่ไม่ขึ้น git
+# ข้อมูลขนาดใหญ่และโมเดลสร้างใหม่ได้: ดึงข้อมูลด้วย scripts/fetch_*.py แล้วรัน notebook 01 → 16 (README.md หัวข้อ "วิธีใช้")
+
+# ---- สภาพแวดล้อมและเครื่องมือ ----
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+~$*
+*.log
+.claude/
+skills-lock.json
+
+# ---- ข้อมูลขนาดใหญ่ (ดึงหรือคำนวณใหม่ด้วย scripts/fetch_*.py, precompute_*.py และ notebook 08, 09, 13) ----
+/data/dem/*
+!/data/dem/urls.txt
+/data/osm/
+/data/sentinel2_sites/
+/data/features/
+/data/paleo/
+/data/dmr_geology/
+/data/dmr_admin/
+/data/thailex/pages/
+
+# ---- แบบจำลองที่ฝึกแล้ว (~11 GB; ฝึกใหม่ด้วย notebook 10, 11, 14, 15) ----
+/models/
+
+# ---- เว็บแบบ static: โฟลเดอร์ที่ build แล้ว และแพ็กเกจ Node สำหรับเทสต์ (cd tools/web && npm ci) ----
+/dist/
+/tools/web/node_modules/
+.wrangler/
+
+# ---- ไฟล์เอกสาร ----
+*.docx
+*.pptx
+*.pdf
+*.ai

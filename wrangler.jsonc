@@ -1,0 +1,8 @@
+// อัปเว็บแบบ static (dist/ จาก scripts/build_static_site.py) ขึ้น Cloudflare — Pages รวมเข้ากับ Workers แล้ว จึงใช้ Workers static assets
+//   อัป:  npx wrangler@4.156.1 deploy        (ครั้งแรก: npx wrangler@4.156.1 login)
+//   ไม่มีโค้ดฝั่ง server: ทุกไฟล์เป็น static asset (การกำหนด cache อยู่ใน dist/_headers)
+{
+  "name": "project-jurassic",
+  "compatibility_date": "2026-11-01",
+  "assets": { "directory": "./dist" }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "jurassic-web-tools",
+  "private": true,
+  "description": "เครื่องมือทดสอบเว็บแบบ static: รันโค้ดทายสกุลของเบราว์เซอร์ (webapp/static/local.js) ใน Node เพื่อเทียบผลกับ Python — เวอร์ชันต้องตรงกับที่ local.js โหลดจาก CDN",
+  "type": "module",
+  "dependencies": {
+    "@huggingface/tokenizers": "0.2.0",
+    "onnxruntime-web": "1.31.1"
+  }
+}

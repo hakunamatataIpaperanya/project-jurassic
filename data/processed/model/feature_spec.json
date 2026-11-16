@@ -1,0 +1,208 @@
+{
+  "sites_impute_flag": {
+    "file": "sites_impute_flag.csv",
+    "rows": 518,
+    "id": [
+      "OBJECTID",
+      "SITE_CODE",
+      "NAME_TH"
+    ],
+    "target": [
+      "target_period",
+      "target_period_young"
+    ],
+    "ref_do_not_use_as_feature": [
+      "ref_PERIODFROM_raw",
+      "ref_period_final",
+      "ref_period_final_source",
+      "ref_period_final_confidence"
+    ],
+    "features_categorical": [
+      "PROVINCE",
+      "FORMATION",
+      "GEO_GROUP",
+      "IMPORTA_TH",
+      "coord_impute_level"
+    ],
+    "features_numeric": [
+      "UTM_E",
+      "UTM_N",
+      "geometry_x",
+      "geometry_y",
+      "gr_vertebrate",
+      "gr_invertebrate",
+      "gr_plant",
+      "gr_trace",
+      "gr_other",
+      "n_specimens_linked",
+      "formation_missing",
+      "geo_group_missing",
+      "has_locality",
+      "coord_imputed"
+    ],
+    "text_unused": [
+      "LOCALITY",
+      "DISTRICT",
+      "TAMBON"
+    ],
+    "flags": [
+      "formation_missing",
+      "geo_group_missing",
+      "has_locality",
+      "coord_imputed",
+      "coord_impute_level"
+    ]
+  },
+  "specimens_impute_flag": {
+    "file": "specimens_impute_flag.csv",
+    "rows": 8521,
+    "id": [
+      "fossil_id",
+      "site_OBJECTID"
+    ],
+    "target": [
+      "target_sci_name",
+      "target_genus",
+      "target_period"
+    ],
+    "ref_do_not_use_as_feature": [
+      "ref_broad_taxon",
+      "ref_period_final",
+      "ref_period_final_confidence"
+    ],
+    "features_categorical": [
+      "com_name",
+      "f_type",
+      "f_group",
+      "f_part",
+      "dis_name",
+      "province",
+      "district",
+      "tambon",
+      "match_level",
+      "merge_confidence",
+      "FORMATION",
+      "GEO_GROUP",
+      "coord_impute_level"
+    ],
+    "features_numeric": [
+      "UTM_E",
+      "UTM_N",
+      "geometry_x",
+      "geometry_y",
+      "formation_missing",
+      "geo_group_missing",
+      "has_locality",
+      "coord_imputed",
+      "com_name_missing",
+      "f_type_missing",
+      "f_part_missing",
+      "dis_name_missing",
+      "district_missing",
+      "tambon_missing",
+      "province_missing"
+    ],
+    "text_unused": [
+      "LOCALITY"
+    ],
+    "flags": [
+      "formation_missing",
+      "geo_group_missing",
+      "has_locality",
+      "coord_imputed",
+      "com_name_missing",
+      "f_type_missing",
+      "f_part_missing",
+      "dis_name_missing",
+      "district_missing",
+      "tambon_missing",
+      "province_missing",
+      "coord_impute_level"
+    ]
+  },
+  "sites_impute_only": {
+    "file": "sites_impute_only.csv",
+    "rows": 518,
+    "id": [
+      "OBJECTID",
+      "SITE_CODE",
+      "NAME_TH"
+    ],
+    "target": [
+      "target_period",
+      "target_period_young"
+    ],
+    "ref_do_not_use_as_feature": [
+      "ref_PERIODFROM_raw",
+      "ref_period_final",
+      "ref_period_final_source",
+      "ref_period_final_confidence"
+    ],
+    "features_categorical": [
+      "PROVINCE",
+      "FORMATION",
+      "GEO_GROUP",
+      "IMPORTA_TH"
+    ],
+    "features_numeric": [
+      "UTM_E",
+      "UTM_N",
+      "geometry_x",
+      "geometry_y",
+      "gr_vertebrate",
+      "gr_invertebrate",
+      "gr_plant",
+      "gr_trace",
+      "gr_other",
+      "n_specimens_linked"
+    ],
+    "text_unused": [
+      "LOCALITY",
+      "DISTRICT",
+      "TAMBON"
+    ],
+    "flags": []
+  },
+  "specimens_impute_only": {
+    "file": "specimens_impute_only.csv",
+    "rows": 8521,
+    "id": [
+      "fossil_id",
+      "site_OBJECTID"
+    ],
+    "target": [
+      "target_sci_name",
+      "target_genus",
+      "target_period"
+    ],
+    "ref_do_not_use_as_feature": [
+      "ref_broad_taxon",
+      "ref_period_final",
+      "ref_period_final_confidence"
+    ],
+    "features_categorical": [
+      "com_name",
+      "f_type",
+      "f_group",
+      "f_part",
+      "dis_name",
+      "province",
+      "district",
+      "tambon",
+      "match_level",
+      "merge_confidence",
+      "FORMATION",
+      "GEO_GROUP"
+    ],
+    "features_numeric": [
+      "UTM_E",
+      "UTM_N",
+      "geometry_x",
+      "geometry_y"
+    ],
+    "text_unused": [
+      "LOCALITY"
+    ],
+    "flags": []
+  }
+}

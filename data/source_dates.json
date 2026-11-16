@@ -1,0 +1,9 @@
+{
+ "_note": "วันที่ของข้อมูลต้นทาง (หน้าเว็บแสดงเป็น \"ข้อมูล ณ\"): ทะเบียน = วันที่ในชื่อไฟล์ของ ทธ. (31072567 = 31 ก.ค. 2567); ที่เหลือ = วันที่ดาวน์โหลด — ดึงข้อมูลใหม่แล้วแก้วันที่ในไฟล์นี้ด้วย. ช่วงวันที่ของภาพ Sentinel-2 คำนวณจากภาพที่กริดใช้จริง (webapp/server.py)",
+ "registry": {"date": "2024-07-31", "th": "ทะเบียนตัวอย่างซากดึกดำบรรพ์ ทธ.", "en": "DMR fossil specimen register"},
+ "sites": {"date": "2026-10-09", "th": "แหล่งซากดึกดำบรรพ์ที่ขึ้นทะเบียน (ทธ.)", "en": "DMR registered fossil sites"},
+ "pbdb": {"date": "2026-10-09", "th": "Paleobiology Database (PBDB)", "en": "Paleobiology Database (PBDB)"},
+ "geology": {"date": "2026-10-09", "th": "แผนที่ธรณีวิทยา 1:250,000 (ทธ.)", "en": "DMR 1:250,000 geological map"},
+ "provinces": {"date": "2026-10-13", "th": "ขอบเขตจังหวัด (ทธ.)", "en": "DMR province boundaries"},
+ "thailex": {"date": "2026-10-14", "th": "พจนานุกรมหน่วยหินไทย ThaiLex", "en": "ThaiLex lexicon of Thai rock units"}
+}
