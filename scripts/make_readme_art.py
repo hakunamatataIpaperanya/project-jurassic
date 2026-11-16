@@ -676,7 +676,7 @@ def divider_night():
                '<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.02;0.1;0.12;1" dur="7s" repeatCount="indefinite"/></g>')
     for fx, fy, d in ((60, G - 6, 3.1), (112, G - 9, 2.4), (160, G - 5, 3.6), (214, G - 8, 2.8)):
         out.append(move(twinkle(0, 0, "#ffe98a", d / 3, fx % 2, lo=0.0), [(fx, fy), (fx + 4, fy - 2), (fx + 1, fy - 4), (fx, fy)], d * 2))
-    out.append(f'<g transform="translate(0 {G - 23})">{move(flip([theropod(0), theropod(1)], 0.7), [(-32, 0), (W + 2, 0)], 18)}</g>')
+    out.append(move(flip([theropod(0), theropod(1)], 0.7), [(-32, G - 23), (W + 2, G - 23)], 18))
     out.append("</svg>")
     return "".join(out)
 
