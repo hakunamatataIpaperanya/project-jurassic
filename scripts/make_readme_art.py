@@ -676,7 +676,7 @@ def divider_night():
                '<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.02;0.1;0.12;1" dur="7s" repeatCount="indefinite"/></g>')
     for fx, fy, d in ((60, G - 6, 3.1), (112, G - 9, 2.4), (160, G - 5, 3.6), (214, G - 8, 2.8)):
         out.append(move(twinkle(0, 0, "#ffe98a", d / 3, fx % 2, lo=0.0), [(fx, fy), (fx + 4, fy - 2), (fx + 1, fy - 4), (fx, fy)], d * 2))
-    out.append(move(flip([theropod(0), theropod(1)], 0.7), [(-32, G - 23), (W + 2, G - 23)], 18))
+    out.append(f'<g transform="translate(0 {G - 23})">{move(flip([theropod(0), theropod(1)], 0.7), [(-32, 0), (W + 2, 0)], 18)}</g>')
     out.append("</svg>")
     return "".join(out)
 
@@ -791,68 +791,85 @@ def divider_dusk():
     return "".join(out)
 
 
-E27_TITLES = [   # ฉายายาวเหยียดของ @E27-25 (วิ่งเป็นแถบตัวอักษรในป้าย และเขียนเต็มใต้ป้ายใน README.md)
+E27_TITLES = [   # ฉายายาวเหยียดของ @E27-25 (เขียนครบทุกชื่อในป้าย contributor.svg)
     "KING OF ALL DINOS", "EMPEROR OF THE JURASSIC", "LORD OF THE 8,521 FOSSILS", "GUARDIAN OF THE 518 SITES",
     "RULER OF ALL 20,706 MAP CELLS", "SUPREME OVERLORD OF THE KHORAT PLATEAU", "WHISPERER OF PHUWIANGOSAURUS",
-    "BEST FRIEND OF SIAMOTYRANNUS", "TAMER OF XGBOOST", "SHEPHERD OF 10,000 DECISION TREES", "SLAYER OF OVERFITTING",
-    "BREAKER OF NAN", "BANISHER OF DATA LEAKAGE", "KEEPER OF THE GOLDEN ROCK HAMMER", "HIGH PRIEST OF SPATIAL CROSS-VALIDATION",
-    "MASTER OF THE ONNX HOLOGRAM", "SURVIVOR OF THE ASTEROID (IT MISSED HIM)", "DIGGER OF HOLES WITH 0.887 AUC",
-    "THE ONE WHO MAKES TRILOBITES BOW", "SOLE REASON THE 227 TESTS PASS", "FATHER OF PANGEA", "AND SO ON AND SO ON",
+    "BEST FRIEND OF SIAMOTYRANNUS", "CHIROPRACTOR OF SIAMOSAURUS", "TAMER OF XGBOOST", "SHEPHERD OF 10,000 DECISION TREES",
+    "SLAYER OF OVERFITTING", "BREAKER OF NAN", "BANISHER OF DATA LEAKAGE", "KEEPER OF THE GOLDEN ROCK HAMMER",
+    "HIGH PRIEST OF SPATIAL CROSS-VALIDATION", "MASTER OF THE ONNX HOLOGRAM", "SURVIVOR OF THE ASTEROID (IT MISSED HIM)",
+    "DIGGER OF HOLES WITH 0.887 AUC", "THE ONE WHO MAKES TRILOBITES BOW", "SOLE REASON THE 227 TESTS PASS", "FATHER OF PANGEA",
+    "FIRST OF HIS COMMIT", "THE UN-REVERTED", "PROTECTOR OF THE REALM OF SAO KHUA", "EATER OF BUGS (THE CODE KIND)",
+    "LORD OF THE DINO NUGGETS", "AND SO ON AND SO ON AND SO ON...",
 ]
 
 
+def wrap_titles(titles, max_chars):
+    # ต่อฉายาด้วย " * " แล้วตัดบรรทัดโดยไม่หั่นกลางฉายา
+    lines, cur = [], ""
+    for t in titles:
+        nxt = f"{cur} * {t}" if cur else t
+        if len(nxt) > max_chars and cur:
+            lines.append(cur)
+            cur = t
+        else:
+            cur = nxt
+    return lines + [cur]
+
+
 def contributor():
-    # แถบสั้นท้าย README: ผู้ร่วมพัฒนาพิเศษ @E27-25 (กรอบทอง ดาวกะพริบ เทอโรพอดเดินผ่าน แถบฉายาวิ่ง)
-    W, H, G = 256, 50, 43
+    # ป้ายท้าย README: ผู้ร่วมพัฒนาพิเศษ @E27-25 พร้อมฉายาครบทุกชื่อ (กรอบทอง ดาวกะพริบ แถบสแกน เทอโรพอดเดินผ่าน)
+    W, LH, T0 = 320, 10, 38
+    lines = wrap_titles(E27_TITLES, (W - 16) // 6)
+    G = T0 + len(lines) * LH + 28
+    H = G + 8
     rnd = random.Random(27)
     g = blank(W, H)
-    sky(g, 0, G, ["#06071c", "#0b0c29", "#141845", "#1f2560"])
+    sky(g, 0, G, ["#06071c", "#0b0c29", "#141845", "#1f2560", "#2a2a6e"])
     for x in range(W):
-        h = int(3 + 2 * math.sin(x / 15) + math.sin(x / 6 + 2))
+        h = int(4 + 2 * math.sin(x / 15) + math.sin(x / 6 + 2))
         for y in range(G - h, G):
             g[y][x] = "#161a4a"
-    strata(g, G, rnd, [("ammonite", 30), ("bone", 120), ("trilobite", 210)])
+    for tx in (14, 92, 210, 296):
+        stamp(g, ARAUCARIA, tx, G - 8 - rnd.randrange(0, 3), "#0e1238")
+    strata(g, G, rnd, [("ammonite", 30), ("bone", 110), ("trilobite", 190), ("shell", 270)])
     cut_corners(g)
     label, name = "SPECIAL CONTRIBUTOR", "@E27-25"
     lw, nw = text_width(label), text_width(name, 2)
     txt = blank(W, H)
     for x, y, r in text_pixels(label):
-        put(txt, (W - lw) // 2 + x, 4 + y, "#9fe9ff")
+        put(txt, (W - lw) // 2 + x, 5 + y, "#9fe9ff")
     nx = (W - nw) // 2
     for x, y, r in text_pixels(name, 2):
-        put(txt, nx + x, 15 + y + 1, "#5a2410")
+        put(txt, nx + x, 16 + y + 1, "#5a2410")
     for x, y, r in text_pixels(name, 2):
-        put(txt, nx + x, 15 + y, mix("#fff1a3", "#f08a2c", r / 6))
+        put(txt, nx + x, 16 + y, mix("#fff1a3", "#f08a2c", r / 6))
     for sx in (nx - 12, nx + nw + 7):                               # ดาวทองสองข้างชื่อ
-        stamp(txt, [" # ", "###", " # "], sx, 19, "#ffd86b")
+        stamp(txt, [" # ", "###", " # "], sx, 20, "#ffd86b")
+    for x in range(W // 2 - 60, W // 2 + 61):                       # เส้นคั่นใต้ชื่อ
+        if x % 4 != 3:
+            put(txt, x, T0 - 5, "#3a3f8f")
+    cols = ["#fff1a3", "#9fe9ff"]
+    for i, line in enumerate(lines):                                # ฉายาทั้งหมด: สลับสีทอง / ฟ้า ทีละบรรทัด, ดาวคั่นสีส้ม
+        x0, y0 = (W - text_width(line)) // 2, T0 + i * LH
+        for k, ch in enumerate(line):
+            c = "#f29a3f" if ch == "*" else cols[i % 2]
+            for x, y, r in text_pixels(ch):
+                put(txt, x0 + k * 6 + x, y0 + y, mix(c, "#c76f22", r / 10) if ch != "*" and i % 2 == 0 else c)
     edge = blank(W, H)
     for x in range(2, W - 2):
         edge[0][x] = edge[H - 1][x] = "#ffd86b"
     for y in range(2, H - 2):
         edge[y][0] = edge[y][W - 1] = "#ffd86b"
-    out = [svg_open(W, H, "Special contributor: E27-25"), runs(g)]
-    for _ in range(14):
-        x, y = rnd.randrange(4, W - 4), rnd.randrange(2, G - 6)
-        if (W - nw) // 2 - 16 <= x <= (W + nw) // 2 + 16:
+    out = [svg_open(W, H, "Special contributor: E27-25, " + ", ".join(t.title() for t in E27_TITLES)), runs(g)]
+    for _ in range(18):
+        x, y = rnd.randrange(4, W - 4), rnd.randrange(2, 30)
+        if (W - lw) // 2 - 16 <= x <= (W + lw) // 2 + 16:
             continue
         out.append(twinkle(x, y, rnd.choice(["#ffffff", "#c8f6ff", "#fff1a3"]), rnd.uniform(1.6, 3.4), rnd.uniform(0, 3)))
-    out.append(move(flip([theropod(0), theropod(1)], 0.7), [(-32, G - 23), (W + 2, G - 23)], 16))
+    out.append(f'<g transform="translate(0 {G - 23})">{move(flip([theropod(0), theropod(1)], 0.7), [(-32, 0), (W + 2, 0)], 18)}</g>')
     out.append(runs(txt))
-    # แถบฉายาวิ่งจากขวาไปซ้าย วนต่อกันไม่มีรอยต่อ (วาดข้อความสองรอบ เลื่อนไปหนึ่งช่วง)
-    ty, tick = 31, " * ".join(E27_TITLES) + " * "
-    period = len(tick) * 6
-    band = blank(W, 9)
-    for x in range(2, W - 2):
-        band[0][x] = band[8][x] = "#3a3f8f"
-        for y in range(1, 8):
-            band[y][x] = "#0b0c29"
-    strip = blank(2 * period, 7)
-    for off in (0, period):
-        for x, y, r in text_pixels(tick):
-            put(strip, off + x, y, mix("#fff1a3", "#f08a2c", r / 6))
-    out.append(f'<g transform="translate(0 {ty - 1})">{runs(band)}</g>')
-    out.append(f'<clipPath id="tick"><rect x="2" y="0" width="{W - 4}" height="7"/></clipPath>'
-               f'<g transform="translate(0 {ty})" clip-path="url(#tick)">{move(runs(strip), [(4, 0), (4 - period, 0)], round(period / 28))}</g>')
+    out.append(f'<rect x="4" width="{W - 8}" height="1" fill="#e9fdff" opacity="0.18">'      # แถบสแกนไล่ลงบนรายชื่อฉายา
+               f'<animate attributeName="y" values="{T0 - 2};{T0 + len(lines) * LH}" dur="4s" repeatCount="indefinite"/></rect>')
     out.append(f'<g>{runs(edge)}<animate attributeName="opacity" values="0.45;1;0.45" dur="2.4s" repeatCount="indefinite"/></g>')
     out.append("</svg>")
     return "".join(out)
