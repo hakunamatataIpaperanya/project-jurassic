@@ -6,6 +6,7 @@
 #   divider_night.svg / divider_sea.svg / divider_dusk.svg  แถบคั่นหัวข้อ 3 ฉาก สัตว์ต่างกัน:
 #               กลางคืน: เทอโรพอดเดินใต้ดาว · ทะเลโบราณ: แอมโมไนต์ ปลา ไทรโลไบต์ · ยามเย็น: เทอโรซอร์บินผ่านภูเขาไฟ
 #   results.svg ผลของโมเดลเป็นแท่ง pixel (ตัวเลขชุดเดียวกับตาราง "See every number" ใน README.md)
+#   contributor.svg  แถบสั้นท้าย README: ผู้ร่วมพัฒนาพิเศษ @E27-25
 # รัน:  .venv/bin/python scripts/make_readme_art.py
 import json
 import math
@@ -44,7 +45,7 @@ FONT = {
     "%": ["##   ", "##  #", "   # ", "  #  ", " #   ", "#  ##", "   ##"], "*": ["     ", "  #  ", "# # #", " ### ", "# # #", "  #  ", "     "],
     "(": ["   # ", "  #  ", " #   ", " #   ", " #   ", "  #  ", "   # "], ")": [" #   ", "  #  ", "   # ", "   # ", "   # ", "  #  ", " #   "],
     "=": ["     ", "     ", "#####", "     ", "#####", "     ", "     "], "?": [" ### ", "#   #", "    #", "   # ", "  #  ", "     ", "  #  "],
-    ">": ["#    ", " #   ", "  #  ", "   # ", "  #  ", " #   ", "#    "],
+    ">": ["#    ", " #   ", "  #  ", "   # ", "  #  ", " #   ", "#    "], "@": [" ### ", "#   #", "# ###", "# # #", "# ###", "#    ", " ####"],
     " ": ["     "] * 7,
 }
 
@@ -790,8 +791,51 @@ def divider_dusk():
     return "".join(out)
 
 
+def contributor():
+    # แถบสั้นท้าย README: ผู้ร่วมพัฒนาพิเศษ @E27-25 (กรอบทอง ดาวกะพริบ เทอโรพอดเดินผ่าน)
+    W, H, G = 256, 40, 33
+    rnd = random.Random(27)
+    g = blank(W, H)
+    sky(g, 0, G, ["#06071c", "#0b0c29", "#141845", "#1f2560"])
+    for x in range(W):
+        h = int(3 + 2 * math.sin(x / 15) + math.sin(x / 6 + 2))
+        for y in range(G - h, G):
+            g[y][x] = "#161a4a"
+    strata(g, G, rnd, [("ammonite", 30), ("bone", 120), ("trilobite", 210)])
+    cut_corners(g)
+    label, name = "SPECIAL CONTRIBUTOR", "@E27-25"
+    lw, nw = text_width(label), text_width(name, 2)
+    txt = blank(W, H)
+    for x, y, r in text_pixels(label):
+        put(txt, (W - lw) // 2 + x, 4 + y, "#9fe9ff")
+    nx = (W - nw) // 2
+    for x, y, r in text_pixels(name, 2):
+        put(txt, nx + x, 15 + y + 1, "#5a2410")
+    for x, y, r in text_pixels(name, 2):
+        put(txt, nx + x, 15 + y, mix("#fff1a3", "#f08a2c", r / 6))
+    for sx in (nx - 12, nx + nw + 7):                               # ดาวทองสองข้างชื่อ
+        stamp(txt, [" # ", "###", " # "], sx, 19, "#ffd86b")
+    edge = blank(W, H)
+    for x in range(2, W - 2):
+        edge[0][x] = edge[H - 1][x] = "#ffd86b"
+    for y in range(2, H - 2):
+        edge[y][0] = edge[y][W - 1] = "#ffd86b"
+    out = [svg_open(W, H, "Special contributor: E27-25"), runs(g)]
+    for _ in range(14):
+        x, y = rnd.randrange(4, W - 4), rnd.randrange(2, G - 6)
+        if (W - nw) // 2 - 16 <= x <= (W + nw) // 2 + 16:
+            continue
+        out.append(twinkle(x, y, rnd.choice(["#ffffff", "#c8f6ff", "#fff1a3"]), rnd.uniform(1.6, 3.4), rnd.uniform(0, 3)))
+    out.append(move(flip([theropod(0), theropod(1)], 0.7), [(-32, G - 23), (W + 2, G - 23)], 16))
+    out.append(runs(txt))
+    out.append(f'<g>{runs(edge)}<animate attributeName="opacity" values="0.45;1;0.45" dur="2.4s" repeatCount="indefinite"/></g>')
+    out.append("</svg>")
+    return "".join(out)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / "contributor.svg").write_text(contributor(), encoding="utf-8")
     (OUT / "banner.svg").write_text(banner(), encoding="utf-8")
     potential_map()
     (OUT / "results.svg").write_text(results(), encoding="utf-8")

@@ -151,3 +151,7 @@ fetch the data with `scripts/fetch_*.py`, then run notebooks 01 → 16 (`sh scri
 | Web basemap | [OpenFreeMap](https://openfreemap.org/) · © OpenMapTiles · © OpenStreetMap contributors |
 
 <p align="center"><img src="assets/readme/divider_dusk.svg" alt="" width="100%"></p>
+
+## 🏅 Special contributor
+
+<p align="center"><a href="https://github.com/E27-25"><img src="assets/readme/contributor.svg" alt="Special contributor: E27-25" width="100%"></a></p>
