@@ -44,7 +44,8 @@ FONT = {
     "%": ["##   ", "##  #", "   # ", "  #  ", " #   ", "#  ##", "   ##"], "*": ["     ", "  #  ", "# # #", " ### ", "# # #", "  #  ", "     "],
     "(": ["   # ", "  #  ", " #   ", " #   ", " #   ", "  #  ", "   # "], ")": [" #   ", "  #  ", "   # ", "   # ", "   # ", "  #  ", " #   "],
     "=": ["     ", "     ", "#####", "     ", "#####", "     ", "     "], "?": [" ### ", "#   #", "    #", "   # ", "  #  ", "     ", "  #  "],
-    ">": ["#    ", " #   ", "  #  ", "   # ", "  #  ", " #   ", "#    "],
+    ">": ["#    ", " #   ", "  #  ", "   # ", "  #  ", " #   ", "#    "], "&": [" ##  ", "#  # ", " ##  ", "## # ", "#  # ", "#  # ", " ## #"],
+    "!": ["  #  ", "  #  ", "  #  ", "  #  ", "  #  ", "     ", "  #  "], "@": [" ### ", "#   #", "# ###", "# # #", "# ###", "#    ", " ####"],
     " ": ["     "] * 7,
 }
 
@@ -790,6 +791,156 @@ def divider_dusk():
     return "".join(out)
 
 
+CROWN = [
+    "  #   #   #   #   #  ",
+    " ### ### ### ### ### ",
+    "#####*#########*#####",
+    "###@#####+#####@#####",
+    "#####################",
+    " ################### ",
+]
+
+
+def vip_e27():
+    # ป้ายเกียรติยศพิเศษสำหรับ VIP Supreme Contributor: E27-25
+    W, H, G = 256, 116, 100
+    rnd = random.Random(2725)
+    bg = blank(W, H)
+    sky(bg, 0, G, ["#070820", "#0e1038", "#18154c", "#24195c", "#321d6b"])
+    strata(bg, G, rnd, [("ammonite", 18), ("bone", 64), ("trilobite", 118), ("shell", 174), ("fish", 224)])
+
+    # ขอบทองสองชั้นแบบราชสำนักจูแรสซิก
+    frame = blank(W, H)
+    for x in range(W):
+        frame[0][x] = frame[H - 1][x] = "#ffd86b"
+        if 2 <= x <= W - 3:
+            frame[2][x] = frame[H - 3][x] = "#f29a3f"
+    for y in range(H):
+        frame[y][0] = frame[y][W - 1] = "#ffd86b"
+        if 2 <= y <= H - 3:
+            frame[y][2] = frame[y][W - 3] = "#f29a3f"
+    for cx, cy in ((3, 3), (W - 4, 3), (3, H - 4), (W - 4, H - 4)):
+        for dy in range(-1, 2):
+            for dx in range(-1, 2):
+                put(frame, cx + dx, cy + dy, "#18d1ff" if dx == 0 and dy == 0 else "#ffd86b")
+
+    # มงกุฎ pixel ตรงกลางด้านบน
+    cx0 = (W - len(CROWN[0])) // 2
+    stamp(
+        frame,
+        CROWN,
+        cx0,
+        5,
+        {"#": "#ffd86b", "*": "#18d1ff", "@": "#ff5c8a", "+": "#7fc64e"},
+    )
+
+    # ข้อความหัวเรื่องและชื่อ E27-25
+    txt = blank(W, H)
+    top_tag = "SUPREME VIP & GRAND PATRON"
+    tw0 = text_width(top_tag, 1)
+    for x, y, r in text_pixels(top_tag, 1):
+        put(txt, (W - tw0) // 2 + x, 13 + y, "#9fe9ff")
+
+    hero = "@E27-25"
+    tw_hero = text_width(hero, 3)
+    hx, hy = (W - tw_hero) // 2, 23
+    for x, y, r in text_pixels(hero, 3):
+        put(txt, hx + x + 2, hy + y + 2, "#3d1608")
+        put(txt, hx + x + 1, hy + y + 1, "#6e2c11")
+    for x, y, r in text_pixels(hero, 3):
+        put(txt, hx + x, hy + y, mix("#ffffff", "#ffd86b" if r < 3 else "#f08a2c", r / 6))
+
+    sub1 = "ARCH-SOVEREIGN OF THE MESOZOIC ATLAS"
+    tw1 = text_width(sub1, 1)
+    for x, y, r in text_pixels(sub1, 1):
+        put(txt, (W - tw1) // 2 + x, 48 + y, "#ffd86b")
+
+    sub2 = "KEEPER OF 8,521 BONES * TAMER OF XGBOOST"
+    tw2 = text_width(sub2, 1)
+    for x, y, r in text_pixels(sub2, 1):
+        put(txt, (W - tw2) // 2 + x, 57 + y, "#dcd6ea")
+
+    out = [
+        svg_open(W, H, "Supreme VIP & Special Contributor: E27-25"),
+        runs(bg),
+    ]
+
+    # ดาวกะพริบฉากหลัง
+    for _ in range(28):
+        sx, sy = rnd.randrange(6, W - 6), rnd.randrange(5, 65)
+        if 65 <= sx <= 190 and 12 <= sy <= 62:
+            continue
+        out.append(twinkle(sx, sy, rnd.choice(["#ffffff", "#ffe7a3", "#9fe9ff"]), rnd.uniform(1.4, 3.2), rnd.uniform(0, 3)))
+
+    # แท่น hologram ด้านซ้าย (เทอโรพอดทองคำ) และด้านขวา (เทอโรพอดฟ้า)
+    for px_ring, col_outer, col_inner in ((22, "#ffd86b", "#f29a3f"), (234, "#18d1ff", "#5ee0ff")):
+        ring = blank(W, H)
+        for a in range(0, 360, 8):
+            for rx, ry, c in ((15, 2.5, col_outer), (10, 1.5, col_inner)):
+                put(ring, round(px_ring + rx * math.cos(math.radians(a))), round(59 + ry * math.sin(math.radians(a))), c)
+        out.append(f'<g opacity="0.9">{runs(ring)}<animate attributeName="opacity" values="0.45;1;0.45" dur="2.2s" repeatCount="indefinite"/></g>')
+
+    # เทอโรพอดซ้ายหันขวา
+    t_left = [runs(theropod(f)) for f in (0, 1)]
+    out.append(
+        f'<g transform="translate(7 36)">'
+        f'<g>{t_left[0]}<animate attributeName="opacity" values="1;0" dur="0.7s" calcMode="discrete" repeatCount="indefinite"/></g>'
+        f'<g opacity="0">{t_left[1]}<animate attributeName="opacity" values="0;1" dur="0.7s" calcMode="discrete" repeatCount="indefinite"/></g>'
+        f'</g>'
+    )
+    # เทอโรพอดขวาหันซ้าย (mirror)
+    out.append(
+        f'<g transform="translate(249 36) scale(-1, 1)">'
+        f'<g>{t_left[1]}<animate attributeName="opacity" values="1;0" dur="0.7s" calcMode="discrete" repeatCount="indefinite"/></g>'
+        f'<g opacity="0">{t_left[0]}<animate attributeName="opacity" values="0;1" dur="0.7s" calcMode="discrete" repeatCount="indefinite"/></g>'
+        f'</g>'
+    )
+
+    # การ์ดสถานะ VIP 4 ช่องด้านล่าง
+    vip_cards = [
+        ("9999+", "AURA LEVEL", "#ffd86b"),
+        ("100%", "DINO RESPECT", "#f29a3f"),
+        ("252MY", "ERA MASTERY", "#18d1ff"),
+        ("S+VIP", "HALL OF FAME", "#7fc64e"),
+    ]
+    cw, gap, cy0, ch = 56, 4, 68, 28
+    x_start = (W - (len(vip_cards) * cw + (len(vip_cards) - 1) * gap)) // 2
+    for k, (val, lab, col) in enumerate(vip_cards):
+        x0 = x_start + k * (cw + gap)
+        card = blank(W, H)
+        for yy in range(cy0, cy0 + ch):
+            for xx in range(x0, x0 + cw):
+                card[yy][xx] = "#0b0c29"
+        vw = text_width(val, 2)
+        for x, y, r in text_pixels(val, 2):
+            put(card, x0 + (cw - vw) // 2 + x, cy0 + 4 + y, mix("#ffffff", col, r / 6))
+        lw = text_width(lab, 1)
+        for x, y, r in text_pixels(lab, 1):
+            put(card, x0 + (cw - lw) // 2 + x, cy0 + 19 + y, "#dcd6ea")
+        out.append(runs(card))
+        cedge = blank(W, H)
+        for xx in range(x0, x0 + cw):
+            cedge[cy0][xx] = cedge[cy0 + ch - 1][xx] = col
+        for yy in range(cy0, cy0 + ch):
+            cedge[yy][x0] = cedge[yy][x0 + cw - 1] = col
+        out.append(
+            f'<g opacity="0.6">{runs(cedge)}'
+            f'<animate attributeName="opacity" values="0.35;1;0.35" dur="2.0s" begin="{k * 0.5:.1f}s" repeatCount="indefinite"/></g>'
+        )
+
+    out.append(runs(txt))
+    out.append(
+        f'<g>{runs(frame)}<animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/></g>'
+    )
+    # แถบแสงสแกนสีทองวิ่งผ่านชื่อ @E27-25
+    out.append(
+        f'<rect x="{hx - 4}" width="{tw_hero + 8}" height="2" fill="#fff9d2" opacity="0.55">'
+        f'<animate attributeName="y" values="{hy};{hy + 21};{hy}" dur="3.2s" repeatCount="indefinite"/></rect>'
+    )
+    out.append("</svg>")
+    return "".join(out)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "banner.svg").write_text(banner(), encoding="utf-8")
@@ -800,6 +951,7 @@ def main():
     (OUT / "divider_night.svg").write_text(divider_night(), encoding="utf-8")
     (OUT / "divider_sea.svg").write_text(divider_sea(), encoding="utf-8")
     (OUT / "divider_dusk.svg").write_text(divider_dusk(), encoding="utf-8")
+    (OUT / "vip_e27.svg").write_text(vip_e27(), encoding="utf-8")
     for f in sorted(OUT.iterdir()):
         print(f.relative_to(ROOT), f"{f.stat().st_size / 1e3:.0f} kB")
 
