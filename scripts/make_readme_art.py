@@ -820,25 +820,55 @@ def _edge(m):
     return m & ~(np.roll(m, 1, 0) & np.roll(m, -1, 0) & np.roll(m, 1, 1) & np.roll(m, -1, 1))
 
 
+def mirrored(inner, w):
+    # กลับซ้าย-ขวา (ให้สัตว์ว่าย/คลานไปทางซ้าย)
+    return f'<g transform="translate({w} 0) scale(-1 1)">{inner}</g>'
+
+
+# ---------------------------------------------------------------- ทากทะเล (nudibranch / sea slug)
+SLUGS = {   # mode: ติ่งบนหลัง (cer) / ใบไม้ (leaf) / พู่เหงือก (gill) / ขอบหยัก (ruffle) / ขนฟู (fuzz)
+    "flab": dict(mode="cer", body=("#c39bff", "#9d6ff0"), edge="#f6eeff", base="#ff6fae", tip="#fff36b", rh="#ff9a3c", spots=None),
+    "aeolid": dict(mode="cer", body=("#ffffff", "#e3ecff"), edge="#ffffff", base="#ff8a3d", tip="#ffffff", rh="#ff8a3d", spots=None),
+    "leaf": dict(mode="leaf", body=("#a8f57f", "#62d24c"), edge="#efffe0", base="#3fcf5a", tip="#eaff6a", rh="#f4fff0", spots=None),
+    "chromo": dict(mode="gill", body=("#3f7bff", "#2a55e0"), edge="#ffd23f", base="#ff8a3d", tip="#ffd0a0", rh="#ff8a3d", spots="#ffffff"),
+    "pink": dict(mode="gill", body=("#ff8fd0", "#ff5fb4"), edge="#ffffff", base="#ffd23f", tip="#fff3b0", rh="#ffd23f", spots="#ffe1f2"),
+    "tiger": dict(mode="gill", body=("#ffa24a", "#ff7a1f"), edge="#fff3d6", base="#ffffff", tip="#ffffff", rh="#3a1a08", spots="#3a1a08"),
+    "nembrotha": dict(mode="gill", body=("#22223a", "#15152a"), edge="#3dff8a", base="#ff8a3d", tip="#ffd23f", rh="#ff5a2a", spots="#3dff8a"),
+    "lettuce": dict(mode="ruffle", body=("#8ff07a", "#55c84a"), edge="#f2fff0", base="#6fe05f", tip="#ffffff", rh="#c9ffc0", spots=None),
+    "bunny": dict(mode="fuzz", body=("#ffffff", "#f1f1f6"), edge="#ffffff", base="#ffffff", tip="#ffffff", rh="#202024", spots="#2a2a30"),
+}
+
+
 def nudibranch(frame, kind):
-    # ทากทะเล (nudibranch) คลานไปทางขวา 26 × 13 สองแบบ: "flab" ม่วงมีติ่งส้ม-เหลืองบนหลัง / "chromo" น้ำเงินขอบเหลืองมีพู่เหงือกส้ม
+    # ทากทะเลคลานไปทางขวา 26 × 13 หลายชนิด (ดู SLUGS)
+    st = SLUGS[kind]
     sp = Sprite(26, 13)
-    sp.ellipse(12.5, 9, 10, 2.4)                                   # ลำตัว
+    fat = st["mode"] == "fuzz"
+    sp.ellipse(12.5, 8.4 if fat else 9, 9.5 if fat else 10, 3.4 if fat else 2.4)    # ลำตัว (กระต่ายทะเลตัวอ้วนกลม)
     sp.ellipse(12.5, 10.6, 10.8, 1.2)                              # เท้า
     sp.curve((4, 9.5), (1.6, 10.6), (0.3, 11.2), 1.6, 0.5)         # หาง
     w = 0.5 if frame else -0.5
-    sp.curve((20.5, 7.6), (21, 5), (21.4 + w, 2.6), 0.8, 0.5, "rh")    # หนวดรับกลิ่น (rhinophore)
-    sp.curve((22.5, 7.8), (23.6, 5.2), (24.6 + w, 3.2), 0.8, 0.5, "rh")
-    sp.curve((22, 9.6), (24, 10), (25.6, 11 + w), 0.6, 0.45, "rh")       # หนวดปาก
-    if kind == "flab":
+    if fat:                                                        # หูกระต่าย (rhinophore สีดำ)
+        sp.curve((18.5, 5.6), (18.8, 3.4), (19 + w, 1.4), 1.0, 0.7, "rh")
+        sp.curve((20.8, 6), (21.6, 3.8), (22.4 + w, 2), 1.0, 0.7, "rh")
+        sp.curve((5, 6), (4, 4.6), (3.4 + w, 3.6), 0.7, 0.5, "cer")   # พู่เหงือกเล็ก ๆ ด้านหลัง
+    else:
+        sp.curve((20.5, 7.6), (21, 5), (21.4 + w, 2.6), 0.8, 0.5, "rh")    # หนวดรับกลิ่น (rhinophore)
+        sp.curve((22.5, 7.8), (23.6, 5.2), (24.6 + w, 3.2), 0.8, 0.5, "rh")
+        sp.curve((22, 9.6), (24, 10), (25.6, 11 + w), 0.6, 0.45, "rh")       # หนวดปาก
+    if st["mode"] == "cer":
         for i, x in enumerate(np.arange(5, 19.5, 2.7)):
             sway = 0.6 if (i + frame) % 2 else -0.6
             sp.curve((x, 7.6), (x + sway * 0.5, 5.4), (x + sway, 2.4 + (i % 2) * 1.2), 0.62, 0.42, "cer")
-        body, edge, base, tip, rh = ("#c39bff", "#9d6ff0"), "#f6eeff", "#ff6fae", "#fff36b", "#ff9a3c"
-    else:
-        for k, (ex, ey) in enumerate([(2.6, 4.2), (4.6, 2.6), (6.8, 2.6), (8.8, 4.2)]):
+    elif st["mode"] == "leaf":
+        for i, x in enumerate(np.arange(4.5, 19, 2.5)):
+            sp.ellipse(x + (0.3 if (i + frame) % 2 else -0.3), 5.6 + (i % 2) * 0.8, 1.05, 1.9, "cer")
+    elif st["mode"] == "ruffle":
+        for x in np.arange(3.5, 20, 0.5):
+            sp.ellipse(x, 6.4 + 1.1 * math.sin(x * 1.3 + frame * math.pi), 0.6, 1.5, "cer")
+    elif st["mode"] == "gill":
+        for ex, ey in [(2.6, 4.2), (4.6, 2.6), (6.8, 2.6), (8.8, 4.2)]:
             sp.curve((5.7, 7.6), ((5.7 + ex) / 2 + w * 0.3, 5.6), (ex + w * 0.4, ey), 0.55, 0.4, "cer")
-        body, edge, base, tip, rh = ("#3f7bff", "#2a55e0"), "#ffd23f", "#ff8a3d", "#ffd0a0", "#ff8a3d"
     near, cer, rhm = sp.mask("near"), sp.mask("cer"), sp.mask("rh")
     e = _edge(near)
     rows = np.where(cer.any(1))[0]
@@ -846,20 +876,77 @@ def nudibranch(frame, kind):
     for y in range(13):
         for x in range(26):
             if rhm[y, x]:
-                g[y][x] = rh if y > 3 else "#fff6dc"
+                g[y][x] = st["rh"] if (y > 3 or fat) else "#fff6dc"
             if near[y, x]:
                 if e[y, x]:
-                    g[y][x] = edge
-                elif kind == "chromo" and (x * 7 + y * 3) % 11 == 0:
-                    g[y][x] = "#ffffff"                              # จุดขาวบนตัว
+                    g[y][x] = st["edge"] if not fat else "#d9d9e6"
+                elif st["spots"] and (x * 7 + y * 3) % (6 if fat else 11) == 0:
+                    g[y][x] = st["spots"]
                 else:
-                    g[y][x] = body[0] if y < 9 else body[1]
+                    g[y][x] = st["body"][0] if y < 9 else st["body"][1]
             if cer[y, x] and not (near[y, x] and y >= 8):
-                g[y][x] = tip if y <= rows.min() + 1 else base
+                g[y][x] = st["tip"] if y <= rows.min() + 1 else st["base"]
+    if kind == "leaf":                                              # ตาดำ ๆ ของ "แกะใบไม้" (leaf sheep)
+        g[8][21] = g[8][23] = "#101010"
+    if fat:
+        g[7][22] = "#202024"
     return g
 
 
+def blue_dragon(frame):
+    # มังกรทะเลสีน้ำเงิน (Glaucus) ลอยใกล้ผิวน้ำ 22 × 11: กิ่งนิ้วสีฟ้าแผ่ออกสามคู่
+    sp = Sprite(22, 11)
+    sp.curve((1, 5.5), (11, 4.6), (20.5, 5.4), 1.0, 1.4)
+    w = 0.5 if frame else -0.5
+    for x in (6.5, 11, 15):
+        for k in (-1, 0, 1):
+            sp.curve((x, 5), (x + k * 1.2, 3), (x + k * 2 + w, 0.8), 0.45, 0.35, "cer")
+            sp.curve((x, 5.6), (x + k * 1.2, 7.6), (x + k * 2 - w, 9.8), 0.45, 0.35, "cer")
+    near, cer = sp.mask("near"), sp.mask("cer")
+    g = blank(22, 11)
+    for y in range(11):
+        for x in range(22):
+            if cer[y, x]:
+                g[y][x] = "#bfe0ff" if y in (0, 1, 9, 10) else "#3f7bff"
+            if near[y, x]:
+                g[y][x] = "#1f4fd8" if y == 5 else "#e6efff"
+    g[5][20] = "#ffffff"
+    return g
+
+
+def spanish_dancer(frame):
+    # ทากทะเล "นักเต้นสเปน" (Spanish dancer) ว่ายกลางน้ำ 28 × 15: ขอบแมนเทิลสีแดงขอบขาวโบกเป็นคลื่น
+    sp = Sprite(28, 15)
+    ph = frame * math.pi
+    top = [(x, 7 - 2.6 - 1.8 * math.sin(x * 0.55 + ph)) for x in np.arange(3, 24.5, 0.5)]
+    bot = [(x, 7.5 + 2.6 + 1.8 * math.sin(x * 0.55 + ph + 1.6)) for x in np.arange(3, 24.5, 0.5)]
+    sp.poly(top + [(24, 7.2), (3, 7.2)], "mantle")
+    sp.poly(bot + [(24, 7.4), (3, 7.4)], "mantle")
+    sp.ellipse(14, 7.3, 10.5, 2)
+    sp.curve((24, 6.2), (25.5, 4.6), (26.5, 3.6), 0.6, 0.45, "rh")
+    sp.curve((24, 8.2), (25.5, 9.8), (26.5, 10.8), 0.6, 0.45, "rh")
+    sp.ellipse(3, 7.3, 1.8, 1.8, "rh")                             # พู่เหงือกขาวด้านท้าย
+    near, man, rh = sp.mask("near"), sp.mask("mantle"), sp.mask("rh")
+    me = _edge(man | near)
+    g = blank(28, 15)
+    for y in range(15):
+        for x in range(28):
+            if man[y, x]:
+                g[y][x] = "#ffffff" if me[y, x] else ("#e8234a" if (x + y) % 4 else "#ff4d6d")
+            if near[y, x]:
+                g[y][x] = "#ff8fa3"
+            if rh[y, x]:
+                g[y][x] = "#fff0f3"
+    return g
+
+
+# ---------------------------------------------------------------- ไดโนเสาร์และสัตว์ดึกดำบรรพ์
 TEAL = {"edge": "#e6fff6", "hi": "#7ff5cf", "mid": "#33cfa6", "lo": "#1d9a82", "far": "#147563", "eye": "#062a24"}
+SUNSET = {"edge": "#fff0e0", "hi": "#ffb070", "mid": "#ff7f50", "lo": "#e0583a", "far": "#a53a2a", "eye": "#2a0c05"}
+SKYBLUE = {"edge": "#f1f5ff", "hi": "#b3ccff", "mid": "#7c9cff", "lo": "#5670e0", "far": "#3c4fb0", "eye": "#0b1240"}
+LIME = {"edge": "#fbffe0", "hi": "#d8f56a", "mid": "#a8d93a", "lo": "#6fae2a", "far": "#4c8020", "eye": "#1a2a05"}
+SLATE = {"edge": "#f4f8ff", "hi": "#c9d8ee", "mid": "#8fa9cc", "lo": "#5f7fa8", "far": "#41608a", "eye": "#0b1530"}
+PLUM = {"edge": "#f6e9ff", "hi": "#d6a8ff", "mid": "#a873f0", "lo": "#7a4cc8", "far": "#56349a", "eye": "#1a0f33"}
 
 
 def plesiosaur(frame):
@@ -879,11 +966,207 @@ def plesiosaur(frame):
     return holo(sp, TEAL, [(40, 3, "eye")], scan=False)
 
 
+def spinosaurus(frame):
+    # สไปโนซอรัส (ไดโนเสาร์ที่ว่ายน้ำเก่ง) 46 × 24: ใบเรือลายบนหลัง หางพาย ขาตีน้ำสองท่า
+    sp = Sprite(46, 24)
+    sp.poly([(12.5, 13), (14, 6), (18, 2.6), (23, 3), (27, 6.5), (28.5, 13)], "sail")
+    kick = [(15, 23), (25, 20)] if frame == 0 else [(19, 20), (22, 23)]
+    for (hx, (fx, fy)), layer in (((17, kick[0]), "far"), ((25, kick[1]), "far"), ((18, (kick[1][0] - 7, kick[1][1])), "near"), ((26, (kick[0][0] + 9, kick[0][1])), "near")):
+        sp.curve((hx, 16), (hx - 1, 19), (fx, fy), 1.5, 0.8, layer)
+    sp.ellipse(20, 15, 9, 3.8)                                     # ลำตัว
+    sp.curve((11, 15), (5, 16), (0.5, 14.5), 2.8, 0.9)             # หาง
+    sp.poly([(1, 14.5), (3.5, 10.5), (8, 13.5), (8, 16.5), (3.5, 19 if frame else 18), (1, 15.5)])   # พายหาง
+    sp.curve((28, 13), (31.5, 11), (34, 10), 2.4, 1.9)             # คอ
+    sp.ellipse(36, 9.8, 3, 2)                                      # หัว
+    sp.poly([(37, 8.6), (45.5, 10), (45.5, 11.2), (37, 11.8)])     # ปากยาวแบบจระเข้
+    g = holo(sp, SUNSET, [(37, 9, "eye")], scan=False)
+    sail, near = sp.mask("sail"), sp.mask("near")
+    se = _edge(sail)
+    for y in range(24):
+        for x in range(46):
+            if sail[y, x] and not near[y, x]:
+                g[y][x] = "#fff3c4" if se[y, x] else ("#ffd23f" if (x // 2) % 2 else "#ff5f7a")
+    return g
+
+
+def ichthyosaur(frame):
+    # อิกทิโอซอร์ (สัตว์เลื้อยคลานทะเลรูปร่างคล้ายโลมา) 36 × 16: ปากแหลมยาว ครีบหลัง หางรูปพระจันทร์เสี้ยว
+    sp = Sprite(36, 16)
+    sp.ellipse(16, 8, 9, 3.4)
+    sp.ellipse(24, 7.8, 2.8, 2.4)
+    sp.poly([(24, 6.8), (35.5, 8), (24, 9.4)])                     # ปากแหลม
+    sp.poly([(12.5, 5), (15.5, 0.8), (19, 4.8)])                   # ครีบหลัง
+    sp.curve((8, 8), (5, 8), (3, 8), 2.0, 0.9)
+    u = 1.2 if frame else -1.2
+    sp.poly([(3.5, 8), (0.3, 1.2 + u), (1.8, 1 + u), (5, 7)])      # หางบน
+    sp.poly([(3.5, 8), (0.3, 14.8 + u), (1.8, 15 + u), (5, 9)])    # หางล่าง
+    fl = [(19, 10), (15.5, 14.8), (14, 14.2), (16.5, 10)] if frame else [(19, 10), (14, 13), (13, 12), (16.5, 9.6)]
+    sp.poly(fl, "far")
+    sp.poly([(x + 2, y) for x, y in fl])
+    g = holo(sp, SKYBLUE, [(25, 7, "eye")], scan=False)
+    g[7][26] = "#ffffff"
+    return g
+
+
+def mosasaur(frame):
+    # โมซาซอร์ (กิ้งก่าทะเลยักษ์) 50 × 17: ขากรรไกรมีฟันขาว ครีบพาย หางมีแพนล่าง
+    sp = Sprite(50, 17)
+    w = 1 if frame else -1
+    sp.ellipse(22, 8, 12, 3.3)
+    sp.curve((11, 8.5), (4, 9.5 + w), (0.5, 9), 2.6, 0.8)
+    sp.poly([(4, 9.4), (1, 14 + w * 0.6), (3.4, 14 + w * 0.6), (7, 10)])
+    sp.ellipse(37, 7.4, 4.4, 2.3)
+    sp.poly([(38, 5.9), (49.5, 7.6), (38, 8.3)])                   # ปากบน
+    sp.poly([(37, 8.4), (48, 8.6), (48, 9.6), (36, 10.2)])         # ปากล่าง
+    for x, ph in ((29, 0), (15, 1)):
+        d = 4.5 if (frame + ph) % 2 else 3
+        sp.poly([(x + 2, 10), (x - 1.5, 10 + d + 1), (x - 3.5, 10 + d), (x - 1, 10)])
+        sp.poly([(x + 3, 10), (x, 10 + 8 - d), (x - 2, 10 + 7.5 - d), (x, 10)], "far")
+    g = holo(sp, LIME, [(39, 6, "eye")], scan=False)
+    for x in range(40, 48, 2):                                     # ฟัน
+        g[8][x] = "#ffffff"
+    return g
+
+
+def megalodon(frame):
+    # เมกาโลดอน (ฉลามยักษ์ดึกดำบรรพ์) 48 × 18: ท้องขาว ปากเต็มไปด้วยฟัน หางสะบัด
+    sp = Sprite(48, 18)
+    sp.ellipse(22, 9, 14, 4.2)
+    sp.poly([(33, 5.6), (47.5, 8.6), (44, 10.8), (33, 12.4)])     # จมูก
+    sp.poly([(17, 5.6), (21.5, 0.4), (26, 5.2)])                   # ครีบหลัง
+    sp.curve((9, 9), (5, 9), (3, 9), 2.4, 1.0)
+    u = 1.2 if frame else -1.2
+    sp.poly([(4, 9), (0.3, 1.5 + u), (2.2, 1.3 + u), (6.5, 8)])
+    sp.poly([(4, 9.5), (1, 15.5 + u), (2.8, 15.6 + u), (6.5, 10.5)])
+    pec = [(28, 11.5), (23, 17.4), (21.4, 16.8), (25, 11.5)] if frame else [(28, 11.5), (22, 16.2), (20.6, 15.4), (25, 11.2)]
+    sp.poly([(x - 2, y) for x, y in pec], "far")
+    sp.poly(pec)
+    g = holo(sp, SLATE, [(40, 7, "eye")], scan=False)
+    near, e = sp.mask("near"), _edge(sp.mask("near"))
+    for y in range(10, 14):                                        # ท้องขาว
+        for x in range(10, 45):
+            if near[y, x] and not e[y, x]:
+                g[y][x] = "#eef4ff"
+    for x in range(36, 45):                                        # ปาก + ฟัน
+        g[10][x] = "#ffffff" if x % 2 else "#7a2335"
+    for x in (30, 32, 34):                                         # ช่องเหงือก
+        for y in (7, 8, 9):
+            g[y][x] = "#5f7fa8"
+    return g
+
+
+def archelon(frame):
+    # อาร์คีลอน (เต่าทะเลยักษ์ดึกดำบรรพ์) 36 × 18: กระดองลายเหลืองทอง กระพือครีบ
+    sp = Sprite(36, 18)
+    sp.ellipse(16, 8.6, 10.5, 4.6, "shell")
+    sp.curve((25, 9.4), (28, 9), (30, 9), 1.6, 1.4)               # คอ
+    sp.ellipse(31.5, 8.8, 2.6, 1.9)                                # หัว
+    sp.poly([(33, 8), (35.6, 9.2), (33, 10)])                      # จะงอยปาก
+    dn = [(21, 11), (16, 17.6), (14, 17), (18, 10.5)]
+    upf = [(21, 7), (16, 0.4), (14, 1), (18, 7.5)]
+    near, far = (dn, upf) if frame == 0 else (upf, dn)
+    sp.poly(far, "far")
+    sp.poly(near)
+    sp.poly([(9, 11.5), (5, 14.6), (4, 13.6), (7.5, 11)])          # ครีบหลัง
+    sp.poly([(6, 9), (2.5, 10), (6, 10.6)])                        # หาง
+    g = holo(sp, TEAL, [(32, 8, "eye")], scan=False)
+    sh = sp.mask("shell")
+    she = _edge(sh)
+    for y in range(18):
+        for x in range(36):
+            if sh[y, x]:
+                plate = (x + (y // 3) * 3) % 6 == 0 or y % 3 == 0
+                g[y][x] = "#fff1b0" if she[y, x] else ("#c98a1e" if plate else ("#ffd25a" if y < 8 else "#ffb43a"))
+    return g
+
+
+def dunkleosteus(frame):
+    # ดังเคิลออสเตียส (ปลาเกราะยักษ์ยุคดีโวเนียน) 40 × 18: หัวเป็นเกราะกระดูก อ้า-หุบขากรรไกรใบมีด
+    sp = Sprite(40, 18)
+    sp.ellipse(17, 9, 13, 4.4)
+    sp.poly([(12, 5.2), (15, 1.4), (18.5, 5)])                     # ครีบหลัง
+    sp.curve((5, 9), (2.5, 8.5), (1, 8), 2, 0.7)
+    u = 1 if frame else -1
+    sp.poly([(3, 8.6), (0.3, 2.5 + u), (2, 2.4 + u), (6, 7.6)])
+    sp.poly([(3, 9.4), (0.8, 13.5 + u), (2.4, 13.6 + u), (6, 10.4)])
+    sp.ellipse(29, 8.2, 8.4, 5.2, "armor")
+    if frame:
+        sp.poly([(30, 10.5), (39, 14), (37.6, 15), (28.5, 12.6)], "armor")   # อ้าปาก
+    else:
+        sp.poly([(30, 10.5), (39.2, 11.2), (38.6, 12.6), (28.5, 12.6)], "armor")
+    g = holo(sp, PLUM, [], scan=False)
+    ar = sp.mask("armor")
+    ae = _edge(ar)
+    for y in range(18):
+        for x in range(40):
+            if ar[y, x]:
+                seam = x in (25, 31) or (y == 8 and x < 34)
+                g[y][x] = "#fff7e6" if ae[y, x] else ("#b08a58" if seam else ("#efdcb4" if y < 9 else "#d9bf8c"))
+    g[6][33], g[6][32], g[5][33] = "#101010", "#ffd23f", "#ffd23f"
+    return g
+
+
+def anomalocaris(frame):
+    # อะโนมาโลคาริส (นักล่ายุคแคมเบรียน) 32 × 15: ครีบข้างลำตัวโบกเป็นคลื่น แขนหน้าโค้งงอ ตาบนก้าน
+    sp = Sprite(32, 15)
+    for i, x in enumerate(range(5, 24, 2)):
+        sp.ellipse(x, 7.5, 1.3, 3.0 + 1.3 * math.sin(i * 0.9 + frame * math.pi), "lobe")
+    sp.ellipse(14, 7.5, 10, 2.1)
+    sp.ellipse(25, 7.5, 3.2, 2.5)
+    sp.poly([(4, 7.5), (0.3, 3.6), (1.6, 7.5), (0.3, 11.4)])       # หางพัด
+    c = 0.8 if frame else 0
+    for sgn in (-1, 1):
+        sp.curve((27, 7.5 + sgn * 1.2), (31, 7.5 + sgn * 2.4), (30 - c, 7.5 + sgn * (5 - c)), 0.8, 0.5, "app")   # แขนหน้า
+        sp.ellipse(24, 7.5 + sgn * 4, 1.2, 1.2, "eye")                                                       # ตาบนก้าน
+    near, lobe, app, eye = sp.mask("near"), sp.mask("lobe"), sp.mask("app"), sp.mask("eye")
+    ne, le = _edge(near), _edge(lobe)
+    g = blank(32, 15)
+    for y in range(15):
+        for x in range(32):
+            if lobe[y, x]:
+                g[y][x] = "#ffc2d1" if le[y, x] else "#ff6f91"
+            if near[y, x]:
+                g[y][x] = "#fff0f3" if ne[y, x] else ("#ff9fb0" if x % 2 else "#ff8aa0")
+            if app[y, x]:
+                g[y][x] = "#ffcf6b" if x % 2 else "#ff9a3c"
+            if eye[y, x]:
+                g[y][x] = "#202040"
+    g[3][24] = g[11][24] = "#ffffff"
+    return g
+
+
+def sauropod_bright(frame):
+    # ซอโรพอดตัวเดียวกับในป้ายหัวเรื่อง เปลี่ยนจากสี hologram เป็นสีเขียวสดใส
+    base = {"#c8f6ff": "#f4ffd9", "#5ee0ff": "#a8ec6a", "#18c6f0": "#76d34a", "#0f8fbf": "#4fae3a"}
+    lighter = {mix(k, "#ffffff", 0.25): mix(v, "#ffffff", 0.2) for k, v in base.items()}
+    g = sauropod(frame)
+    for y, row in enumerate(g):
+        for x, c in enumerate(row):
+            if c in base:
+                row[x] = base[c]
+            elif c in lighter:
+                row[x] = lighter[c]
+            if row[x] == base["#18c6f0"] and (x * 3 + y * 5) % 13 == 0:
+                row[x] = "#3f8f2e"                                   # ลายจุดบนหลัง
+    return g
+
+
+def fish_school(col, stripe, eye="#13325c", n=5):
+    fish = blank(6, 3)
+    stamp(fish, FISH, 0, 0, col)
+    fish[1][2] = fish[1][3] = stripe
+    fish[1][1] = eye
+    pos = ((0, 0), (9, -4), (10, 4), (19, 1), (27, -3), (28, 5), (37, 0))[:n]
+    return "".join(f'<g transform="translate({dx} {dy})">{runs(fish)}</g>' for dx, dy in pos)
+
+
 CORAL_BRANCH = [" #   # ", " # # # ", "## # ##", " ##### ", "  ###  ", "   #   ", "   #   "]
 CORAL_FAN = ["  # #  ", " # # # ", "# # # #", " ##### ", "  ###  ", "   #   ", "   #   "]
 CORAL_BRAIN = ["  ####  ", " ###### ", "########"]
+CORAL_TUBE = ["# # #", "# # #", "#####", " ### "]
 CRINOID = ["#  #  #", " # # # ", "  ###  ", "   #   "]
 STARFISH = ["  #  ", "#####", " ### ", " # # "]
+ANEMONE = ["# # # #", " # # # ", "#######", " ##### "]
 
 
 def outlined(g, s, x0, y0, scale, colf, line):
@@ -895,69 +1178,126 @@ def outlined(g, s, x0, y0, scale, colf, line):
         put(g, x0 + x, y0 + y, colf(r))
 
 
+def loop_x(inner, x_start, x_min, x_max, dur, rev=False):
+    # วิ่งวนต่อเนื่องโดยเริ่มที่ตำแหน่ง x_start (ใช้ translate ภายนอกด้วย เพื่อให้ภาพนิ่งและเบราว์เซอร์กระจายทั่วฉากเหมือนกัน)
+    span = x_max - x_min
+    if rev:
+        f = max(0.01, min(0.99, (x_start - x_min) / span))
+        pts = [(0, 0), (x_min - x_start, 0), (x_max - x_start, 0), (0, 0)]
+    else:
+        f = max(0.01, min(0.99, (x_max - x_start) / span))
+        pts = [(0, 0), (x_max - x_start, 0), (x_min - x_start, 0), (0, 0)]
+    return f'<g transform="translate({x_start} 0)">{move(inner, pts, dur, extra=f' keyTimes="0;{f:.4f};{f + 0.0001:.4f};1"')}</g>' 
+
+
+def at(y, inner):
+    return f'<g transform="translate(0 {y})">{inner}</g>'
+
+
 def contributor():
-    # ป้ายท้าย README: ผู้ร่วมพัฒนาพิเศษ @E27-25 พร้อมฉายาครบทุกชื่อ บนฉากใต้ทะเลสีสดใส
-    # มีทากทะเล 2 ตัว + สัตว์ดึกดำบรรพ์: พลีซิโอซอร์ แอมโมไนต์ ไทรโลไบต์ พลับพลึงทะเล (crinoid)
-    W, LH, T0 = 320, 10, 42
+    # ป้ายท้าย README: ผู้ร่วมพัฒนาพิเศษ @E27-25 พร้อมฉายาครบทุกชื่อ บนฉากสีสดใส
+    #   บนฟ้า: เกาะมีซอโรพอด + เทอโรพอด, เทอโรซอร์บิน, ภูเขาไฟ
+    #   ใต้น้ำ 4 ช่องว่าย: สไปโนซอรัส อิกทิโอซอร์ พลีซิโอซอร์ โมซาซอร์ เมกาโลดอน อาร์คีลอน ดังเคิลออสเตียส อะโนมาโลคาริส
+    #   ทากทะเล 9 ชนิดคลานบนพื้นทราย 2 แถว + นักเต้นสเปน + มังกรทะเลสีน้ำเงิน
+    W, LH, SKY = 320, 10, 58
+    T0 = SKY + 46
     lines = wrap_titles(E27_TITLES, (W - 24) // 6)
-    L0 = T0 + len(lines) * LH + 6                                   # ช่องว่ายน้ำของพลีซิโอซอร์
-    S = L0 + 34                                                     # พื้นทราย
-    H = S + 16
+    cy0, cy1 = T0 - 6, T0 + len(lines) * LH + 1
+    L1 = cy1 + 6                                                    # สไปโนซอรัส + อิกทิโอซอร์
+    L2 = L1 + 30                                                    # พลีซิโอซอร์ + โมซาซอร์
+    L3 = L2 + 32                                                    # เมกาโลดอน + อาร์คีลอน
+    L4 = L3 + 28                                                    # ดังเคิลออสเตียส + อะโนมาโลคาริส + นักเต้นสเปน
+    S = L4 + 30                                                     # พื้นทราย
+    H = S + 26
     rnd = random.Random(27)
     g = blank(W, H)
-    sky(g, 0, S + 2, ["#8af0ff", "#5fdcff", "#36bff2", "#1f9fe0", "#1784cc", "#136dba"])
-    for x in range(W):                                              # พื้นทราย + ซากในทราย
+    # ---- ฟ้า ดวงอาทิตย์ ภูเขาไฟ เกาะ
+    sky(g, 0, SKY, ["#62c8ff", "#86d8ff", "#aee7ff", "#d4f5ff"])
+    for y in range(4, 28):
+        for x in range(22, 48):
+            d = (x - 34.5) ** 2 + (y - 15.5) ** 2
+            if d <= 90:
+                g[y][x] = "#fff27a" if d <= 56 else "#ffd23f"
+    for x in range(62, 132):
+        top = max(SKY - 26 + abs(x - 97) * 0.85, SKY - 26)
+        for y in range(int(top), SKY):
+            g[y][x] = "#9b6bb8" if y < SKY - 14 else "#7f56a0"
+        if abs(x - 97) <= 3:
+            g[SKY - 26][x] = "#ff5a2a"
+            g[SKY - 25][x] = "#ff9a3c"
+    for x in range(128, 302):
+        top = int(SKY - 9 + max(0, abs(x - 214) - 62) * 0.7)
+        for y in range(top, SKY):
+            g[y][x] = "#5fd35a" if y == top else "#3fb84a" if y == top + 1 else "#ffd486"
+    for tx in (160, 202, 266):
+        stamp(g, ARAUCARIA, tx, SKY - 17, "#2f9b4a")
+    # ---- ทะเล พื้นทราย ปะการัง
+    sky(g, SKY, S + 2, ["#8af0ff", "#5fdcff", "#36bff2", "#1f9fe0", "#1784cc", "#136dba", "#0f5aa6"])
+    for x in range(W):
         top = S + round(0.9 * math.sin(x / 13) + 0.6 * math.sin(x / 5.1))
         for y in range(top, H):
-            c = "#ffe7a8" if y == top else "#ffd486" if y < top + 4 else "#f2b86a"
+            c = "#ffe7a8" if y == top else "#ffd486" if y < top + 6 else "#f2b86a" if y < top + 16 else "#e5a55a"
             g[y][x] = c if rnd.random() > 0.07 else "#fff7e0"
-    for name, fx in (("ammonite", 40), ("bone", 132), ("trilobite", 214), ("shell", 290)):
-        stamp(g, FOSSILS[name], fx, S + 6, "#fffaf0")
-    for art, x, col in ((CORAL_BRANCH, 8, "#ff5fa2"), (CORAL_FAN, 70, "#b06bff"), (CORAL_BRAIN, 118, "#ffcf4a"),
-                        (CORAL_BRANCH, 176, "#ff9a3c"), (CORAL_FAN, 248, "#ff5fa2"), (CORAL_BRAIN, 300, "#7fe36b")):
+    for name, fx in (("ammonite", 30), ("bone", 92), ("trilobite", 150), ("fish", 206), ("shell", 262), ("ammonite", 304)):
+        stamp(g, FOSSILS[name], fx, S + 20, "#fffaf0")
+    for art, x, col in ((CORAL_BRANCH, 6, "#ff5fa2"), (CORAL_FAN, 44, "#b06bff"), (CORAL_BRAIN, 84, "#ffcf4a"), (ANEMONE, 112, "#ff7a45"),
+                        (CORAL_BRANCH, 140, "#ff9a3c"), (CORAL_TUBE, 170, "#5ad8ff"), (CORAL_FAN, 196, "#ff5fa2"), (CORAL_BRAIN, 226, "#7fe36b"),
+                        (ANEMONE, 252, "#d26bff"), (CORAL_BRANCH, 282, "#ffd23f"), (CORAL_TUBE, 308, "#ff6f91")):
         stamp(g, art, x, S - len(art) + 1, col)
-    for cx, h in ((52, 12), (232, 15)):                             # พลับพลึงทะเล (crinoid) ก้านยาว
+    for cx, h in ((26, 12), (124, 16), (238, 14)):                  # พลับพลึงทะเล (crinoid) ก้านยาว
         for y in range(S - h, S + 1):
             g[y][cx + 3] = "#e0568f"
         stamp(g, CRINOID, cx, S - h - 4, "#ff8fc4")
-    for sx in (100, 278):
+    for sx in (66, 186, 296):
         stamp(g, STARFISH, sx, S - 1, "#ff7a45")
     cut_corners(g)
 
     out = [svg_open(W, H, "Special contributor: E27-25, " + ", ".join(t.title() for t in E27_TITLES)), runs(g)]
-    for x0, d, b in ((40, 5, 0), (130, 6, 1.5), (220, 4.5, 3), (300, 5.5, 2)):   # ลำแสงแดดส่องลงน้ำ
-        out.append(f'<polygon points="{x0},0 {x0 + 18},0 {x0 - 14},{S} {x0 - 32},{S}" fill="#ffffff" opacity="0.1">'
-                   f'<animate attributeName="opacity" values="0.05;0.2;0.05" dur="{d}s" begin="{b}s" repeatCount="indefinite"/></polygon>')
+    cloud = blank(12, 3)
+    stamp(cloud, CLOUD, 0, 0, "#ffffff")
+    for x in range(12):
+        cloud[2][x] = "#d8f3ff"
+    for (cx, cy), d in (((60, 6), 50), ((180, 12), 70), ((270, 4), 60)):
+        out.append(move(runs(cloud), [(cx, cy), (cx - W - 14, cy)], d))
+        out.append(move(runs(cloud), [(cx + W + 14, cy), (cx, cy)], d))
+    for i in range(5):                                             # ควันภูเขาไฟ
+        out.append(f'<rect x="96" y="{SKY - 28}" width="2" height="2" fill="#ffffff" opacity="0">'
+                   f'<animate attributeName="y" values="{SKY - 28};2" dur="5s" begin="{i}s" repeatCount="indefinite"/>'
+                   f'<animate attributeName="x" values="96;108" dur="5s" begin="{i}s" repeatCount="indefinite"/>'
+                   f'<animate attributeName="opacity" values="0.9;0.5;0" dur="5s" begin="{i}s" repeatCount="indefinite"/></rect>')
+    # ไดโนเสาร์บนเกาะ (เดินอยู่กับที่) + เทอโรซอร์บินผ่าน
+    out.append(f'<g transform="translate(150 {SKY - 45})">{flip([sauropod_bright(0), sauropod_bright(1)], 0.9)}</g>')
+    out.append(f'<g transform="translate(222 {SKY - 32})">{flip([theropod(0), theropod(1)], 0.7)}</g>')
+    out.append(move(flip([pterosaur(0), pterosaur(1)], 0.5), [(-32, 8), (100, 3), (200, 10), (W + 2, 5)], 16))
+    out.append(at(20, move(mirrored(flip([pterosaur(1), pterosaur(0)], 0.6), 30), [(W + 2, 0), (-32, 0)], 22, begin=-9)))
+    # ใต้น้ำ: แสงแดด คลื่นผิวน้ำ สาหร่าย
+    for x0, d, b in ((40, 5, 0), (130, 6, 1.5), (220, 4.5, 3), (300, 5.5, 2)):
+        out.append(f'<polygon points="{x0},{SKY} {x0 + 18},{SKY} {x0 - 20},{S} {x0 - 38},{S}" fill="#ffffff" opacity="0.1">'
+                   f'<animate attributeName="opacity" values="0.04;0.18;0.04" dur="{d}s" begin="{b}s" repeatCount="indefinite"/></polygon>')
     wave = blank(2 * W, 2)
     for x in range(2 * W):
         if x % 16 < 6:
             wave[0][x] = "#ffffff"
         elif 8 <= x % 16 < 11:
             wave[1][x] = "#c9f7ff"
-    out.append(move(runs(wave), [(0, 1), (-W, 1)], 14))
-    for sx in (30, 92, 160, 196, 268, 312):                         # สาหร่ายไหว
+    out.append(at(SKY, move(runs(wave), [(0, 0), (-W, 0)], 14)))
+    for sx in (18, 58, 100, 132, 162, 214, 244, 274, 316):
         frames = []
         for f in (0, 1):
             fr = blank(W, H)
-            for k, hh in enumerate((rnd.randrange(10, 18), rnd.randrange(7, 13))):
+            for k, hh in enumerate((rnd.randrange(10, 20), rnd.randrange(7, 14))):
                 for d in range(hh):
                     x = sx + 2 * k + round((d / hh) * 1.8 * math.sin(d * 0.5 + f * math.pi + k))
                     put(fr, x, S - d, "#5cf29a" if d % 3 == 0 else "#2fcf7a")
             frames.append(fr)
         out.append(flip(frames, 1.8))
-    # สัตว์ที่ว่ายผ่านด้านหลังรายชื่อ: แอมโมไนต์ + ฝูงปลาสีเหลือง
-    out.append(move(move(flip([ammonite(0), ammonite(1)], 0.8), [(0, 0), (0, -2), (0, 0)], 2.4), [(-26, 12), (W + 2, 9)], 24))
-    out.append(move(move(flip([ammonite(1), ammonite(0)], 0.8), [(0, 0), (0, 2), (0, 0)], 2.8), [(-26, L0 - 30), (W + 2, L0 - 34)], 30, begin=-12))
-    fish = blank(6, 3)
-    stamp(fish, FISH, 0, 0, "#ffe14a")
-    for x in range(6):
-        if fish[1][x]:
-            fish[1][x] = "#ff9a3c" if x in (2, 3) else fish[1][x]
-    fish[1][1] = "#13325c"
-    school = "".join(f'<g transform="translate({dx} {dy})">{runs(fish)}</g>' for dx, dy in ((0, 0), (9, -4), (10, 4), (19, 1), (27, -3)))
-    out.append(move(school, [(W + 4, 24), (-36, 28)], 15, begin=1))
-    # การ์ดรายชื่อฉายา (พื้นน้ำเงินเข้มโปร่ง ขอบฟ้า)
-    cy0, cy1 = T0 - 6, T0 + len(lines) * LH + 1
+    # ช่วงหัวเรื่อง: มังกรทะเลสีน้ำเงินลอยใกล้ผิวน้ำ แอมโมไนต์ ฝูงปลา
+    for y, dur, x0 in ((SKY + 4, 34, 24), (SKY + 28, 40, 268)):
+        bd = move(flip([blue_dragon(0), blue_dragon(1)], 1.2), [(0, 0), (0, 1), (0, 0)], 3)
+        out.append(at(y, loop_x(mirrored(bd, 22), x0, -24, W + 2, dur, rev=True)))
+    out.append(at(SKY + 12, loop_x(move(flip([ammonite(0), ammonite(1)], 0.8), [(0, 0), (0, -2), (0, 0)], 2.4), 12, -26, W + 2, 24)))
+    out.append(at(SKY + 18, loop_x(fish_school("#ffe14a", "#ff9a3c"), 264, -40, W + 4, 15, rev=True)))
+    # การ์ดรายชื่อฉายา
     out.append(f'<rect x="8" y="{cy0}" width="{W - 16}" height="{cy1 - cy0}" fill="#0b2a5c" opacity="0.8"/>')
     card = blank(W, H)
     for x in range(9, W - 9):
@@ -967,11 +1307,11 @@ def contributor():
     txt = blank(W, H)
     label, name = "SPECIAL CONTRIBUTOR", "@E27-25"
     lw, nw = text_width(label), text_width(name, 2)
-    outlined(txt, label, (W - lw) // 2, 5, 1, lambda r: "#ffffff", "#0b3a6e")
+    outlined(txt, label, (W - lw) // 2, SKY + 6, 1, lambda r: "#ffffff", "#0b3a6e")
     nx = (W - nw) // 2
-    outlined(txt, name, nx, 16, 2, lambda r: mix("#fff6b0", "#ff9a3c", r / 6), "#0b2a5c")
+    outlined(txt, name, nx, SKY + 17, 2, lambda r: mix("#fff6b0", "#ff9a3c", r / 6), "#0b2a5c")
     for sx in (nx - 13, nx + nw + 8):
-        stamp(txt, [" # ", "###", " # "], sx, 20, "#ffffff")
+        stamp(txt, [" # ", "###", " # "], sx, SKY + 21, "#ffffff")
     cols = ["#fff1a3", "#9fe9ff"]
     for i, line in enumerate(lines):                                # ฉายาทั้งหมด สลับสีทอง / ฟ้า, ดาวคั่นสีชมพู
         x0, y0 = (W - text_width(line)) // 2, T0 + i * LH
@@ -982,10 +1322,20 @@ def contributor():
     out.append(runs(card) + runs(txt))
     out.append(f'<rect x="10" width="{W - 20}" height="1" fill="#ffffff" opacity="0.15">'
                f'<animate attributeName="y" values="{cy0 + 1};{cy1 - 2}" dur="4s" repeatCount="indefinite"/></rect>')
-    # ช่องล่าง: พลีซิโอซอร์ว่ายผ่าน, ทากทะเลและไทรโลไบต์คลานบนพื้นทราย
-    out.append(f'<g transform="translate(0 {L0 + 2})">{move(move(flip([plesiosaur(0), plesiosaur(1)], 1.0), [(0, 0), (0, 2), (0, 0)], 2), [(-46, 0), (W + 2, 0)], 20)}</g>')
-    out.append(f'<g transform="translate(0 {S - 11})">{move(flip([nudibranch(0, "flab"), nudibranch(1, "flab")], 0.9), [(-28, 0), (W + 2, 0)], 46)}</g>')
-    out.append(f'<g transform="translate(0 {S - 11})">{move(flip([nudibranch(0, "chromo"), nudibranch(1, "chromo")], 1.1), [(-28, 0), (W + 2, 0)], 46, begin=-23)}</g>')
+    # ---- 4 ช่องว่ายน้ำของสัตว์ดึกดำบรรพ์ (ว่ายสวนกัน กระจายเต็มฉาก)
+    out.append(at(L1, loop_x(move(flip([spinosaurus(0), spinosaurus(1)], 0.8), [(0, 0), (0, 1), (0, 0)], 1.6), 36, -48, W + 2, 26)))
+    out.append(at(L1 + 7, loop_x(mirrored(flip([ichthyosaur(0), ichthyosaur(1)], 0.5), 36), 210, -38, W + 2, 13, rev=True)))
+    out.append(at(L1 + 3, loop_x(fish_school("#ff8fd0", "#ffffff", n=6), 130, -44, W + 4, 17)))
+    out.append(at(L2, loop_x(move(flip([plesiosaur(0), plesiosaur(1)], 1.0), [(0, 0), (0, 2), (0, 0)], 2), 185, -46, W + 2, 20)))
+    out.append(at(L2 + 13, loop_x(mirrored(flip([mosasaur(0), mosasaur(1)], 0.7), 50), 65, -52, W + 2, 18, rev=True)))
+    out.append(at(L3, loop_x(mirrored(flip([megalodon(0), megalodon(1)], 0.6), 48), 235, -50, W + 2, 16, rev=True)))
+    out.append(at(L3 + 8, loop_x(move(flip([archelon(0), archelon(1)], 1.1), [(0, 0), (0, 2), (0, 0)], 2.2), 110, -38, W + 2, 28)))
+    out.append(at(L3 + 4, loop_x(fish_school("#7fffd4", "#ffd23f", n=4), 25, -36, W + 4, 12, rev=True)))
+    out.append(at(L4, loop_x(flip([dunkleosteus(0), dunkleosteus(1)], 0.9), 20, -42, W + 2, 22)))
+    out.append(at(L4 + 6, loop_x(mirrored(flip([anomalocaris(0), anomalocaris(1)], 0.6), 32), 160, -34, W + 2, 19, rev=True)))
+    out.append(at(L4 + 2, loop_x(move(mirrored(flip([spanish_dancer(0), spanish_dancer(1)], 0.7), 28), [(0, 0), (0, -3), (0, 0)], 2.6),
+                                  260, -30, W + 2, 24, rev=True)))
+    # ---- ทากทะเล 9 ชนิดคลานบนพื้นทราย 2 แถว + ไทรโลไบต์
     tri = [blank(9, 4), blank(9, 4)]
     for f in (0, 1):
         stamp(tri[f], TRILOBITE[f], 0, 0, "#b9a3f0")
@@ -994,12 +1344,18 @@ def contributor():
                 tri[f][0][x] = "#efe6ff"
             if tri[f][3][x]:
                 tri[f][3][x] = "#7b5fc0"
-    out.append(f'<g transform="translate(0 {S - 3})">{move(flip(tri, 0.5), [(W + 4, 0), (-12, 0)], 36, begin=-8)}</g>')
-    for _ in range(14):                                             # ฟองอากาศ
-        x, sz, d = rnd.randrange(6, W - 6), rnd.choice((1, 1, 2)), rnd.uniform(5, 9)
-        b = rnd.uniform(0, 6)
+    out.append(at(S - 3, loop_x(flip(tri, 0.5), 146, -12, W + 4, 36, rev=True)))
+    for row_y, slugs in ((S - 11, (("flab", 46, 14, False), ("chromo", 46, 78, False), ("leaf", 60, 152, True), ("pink", 52, 220, True), ("tiger", 40, 282, False))),
+                         (S + 8, (("nembrotha", 50, 22, True), ("bunny", 64, 96, False), ("lettuce", 56, 178, True), ("aeolid", 44, 256, False)))):
+        for kind, dur, x0, rev in slugs:
+            fr = flip([nudibranch(0, kind), nudibranch(1, kind)], 0.9)
+            out.append(at(row_y, loop_x(mirrored(fr, 26) if rev else fr, x0, -28, W + 2, dur, rev=rev)))
+    out.append(at(S + 15, loop_x(mirrored(flip(tri, 0.5), 9), 218, -12, W + 4, 42)))
+    for _ in range(18):                                             # ฟองอากาศ
+        x, sz, d = rnd.randrange(6, W - 6), rnd.choice((1, 1, 2)), rnd.uniform(6, 11)
+        b = rnd.uniform(0, 8)
         out.append(f'<rect x="{x}" y="{S - 2}" width="{sz}" height="{sz}" fill="#ffffff" opacity="0.8">'
-                   f'<animate attributeName="y" values="{S - 2};2" dur="{d:.1f}s" begin="{b:.1f}s" repeatCount="indefinite"/>'
+                   f'<animate attributeName="y" values="{S - 2};{SKY + 2}" dur="{d:.1f}s" begin="{b:.1f}s" repeatCount="indefinite"/>'
                    f'<animate attributeName="opacity" values="0.9;0.9;0" keyTimes="0;0.85;1" dur="{d:.1f}s" begin="{b:.1f}s" repeatCount="indefinite"/></rect>')
     edge = blank(W, H)
     for x in range(2, W - 2):
